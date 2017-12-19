@@ -1,0 +1,31 @@
+# Introduction to Computational Tools for Social Science
+
+This course will provide graduate students the technical skills necessary to conduct research in computational social science and digital humanities, introducing them to the basic computer literacy, programming skills, and application knowledge that students need to be successful in further methods work.
+
+The course is currently divided into four main sections. In the first section, students learn how their computers work and communicate with other computers using git and bash. In the second, we turn our attention to the structure, analysis, and visualization of data, with an emphasis in R. In the third, students learn applications to collect new data (e.g., using APIs and webscraping). In the fourth, students learn additional means of analyzing and visualizing data, including tools like text analysis and machine learning.
+
+## Objectives
+
+* Understand basic programming terminologies, structures, and conventions
+* Navigate and operate effectively in a UNIX environment
+* Master basic Git and GitHub workflows
+* Write, execute, and debug R code for novel data collection, cleaning, analysis, and visualization
+* Be familiar with the concepts and tools of a variety of computational social science / digital humanities applications
+* Be familiar with the basic guidelines around reproducible research, good scientific computing practices, and ethics/privacy/legal quandaries
+* Learn independently and train themselves in a variety of computational applications and tasks through online documentation
+
+## Logistics
+
+###Time 
+
+Lecture: Tuesday 4-6P
+
+Section/Lab: Wednesday 5-7P
+
+###Location
+
+791 Barrows
+
+### Office Hours
+
+By appointment (email or bCourses to set up), 715 Barrows
