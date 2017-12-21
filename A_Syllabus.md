@@ -17,9 +17,11 @@ The course is currently divided into four main sections. In the first section, s
 ## Logistics
 
 Instructor: Rachel Bernhard
+
 Email: rbernhard@berkeley.edu
 
 Section Assistant: Jae Yeon Kim
+
 Email: jaeyeonkim@berkeley.edu
 
 ### Time 
@@ -76,9 +78,9 @@ Because we will be using laptops every class, the temptation to attend to other 
 
 ### Final Project
 
-The final project consists of using the tools we learned in class on your own data of interest. First- and second-year students in the political science department are encouraged to use this as an opportunity to gather data to be used for other courses or the second-year thesis. Students are required to write a short proposal by November 7 (no more than 2 paragraphs) in order to get approval and feedback from the instructors. 
+The final project consists of using the tools we learned in class on your own data of interest. First- and second-year students in the political science department are encouraged to use this as an opportunity to gather data to be used for other courses or the second-year thesis. Students are required to write a short proposal by March 25 (no more than 2 paragraphs) in order to get approval and feedback from the instructors. 
 
-On December 7 we will have a **lightning talk session** where students can present their projects in a maximum 5 minute talk. Since there is no expectation of a formal paper, you should select a project that is completable by the end of the term. In other words, submitting a research design for your future dissertation that will use skills from the class but collects no data is not acceptable, but completing a viably small portion of a study or thesis is. 
+During sections in April we will have **lightning talk sessions** where students can present their projects in a maximum 5 minute talk. Since there is no expectation of a formal paper, you should select a project that is completable by the end of the term. In other words, submitting a research design for your future dissertation that will use skills from the class but collects no data is not acceptable, but completing a viably small portion of a study or thesis is. 
 
 ## Class Activities and Materials
 
@@ -112,18 +114,18 @@ There are no official textbooks for this class. Readings will be light, and post
 
 The schedule is subject to change based on the class's rate of progress. 
 
-* ** Jan. 16/17: ** Introduction and Setup
-* ** Jan. 23/24: ** Git and Bash
-* ** Jan. 30/31: ** Data Structure in R
-* ** Feb. 6/7: ** Data Analysis in R 
-* ** Feb. 13/14: ** Data Visualization in R
-* ** Feb. 20/21: ** APIs
-* ** Feb. 27/28: ** HTML/CSS/Javascript
-* ** Mar. 6/7: ** Webscraping
-* ** Mar. 13/14: ** Qualtrics/MTurk
-* ** Mar. 20/21: ** Geospatial Analysis
-* ** Mar. 27/28: ** SPRING BREAK [no class]
-* ** Apr. 3/4: ** Text Analysis
-* ** Apr. 10/11: ** Text Analysis / Natural Language Processing
-* ** Apr. 17/18: ** Machine Learning 
-* ** Apr. 24/25: ** Machine Learning
+* **Jan. 16/17:** Introduction and Setup
+* **Jan. 23/24:** Git and Bash
+* **Jan. 30/31:** Data Structure in R
+* **Feb. 6/7:** Data Analysis in R 
+* **Feb. 13/14:** Data Visualization in R
+* **Feb. 20/21:** APIs
+* **Feb. 27/28:** HTML/CSS/Javascript
+* **Mar. 6/7:** Webscraping
+* **Mar. 13/14:** Qualtrics/MTurk
+* **Mar. 20/21:** Geospatial Analysis
+* **Mar. 27/28:** SPRING BREAK [no class]
+* **Apr. 3/4:** Text Analysis [final presentations occur during sections in April]
+* **Apr. 10/11:** Text Analysis / Natural Language Processing
+* **Apr. 17/18:** Machine Learning 
+* **Apr. 24/25:** Machine Learning and Wrap-Up
