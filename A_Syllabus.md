@@ -127,9 +127,9 @@ The schedule is subject to change based on the class's rate of progress.
 * **Feb. 27/28:** HTML/CSS/Javascript
 * **Mar. 6/7:** Webscraping
 * **Mar. 13/14:** Qualtrics/MTurk
-* **Mar. 20/21:** Geospatial Analysis
+* **Mar. 20/21:** Intro to Python
 * **Mar. 27/28:** SPRING BREAK [no class]
-* **Apr. 3/4:** Text Analysis [!!final presentations occur during sections in April!!]
-* **Apr. 10/11:** Text Analysis / Natural Language Processing
-* **Apr. 17/18:** Machine Learning 
-* **Apr. 24/25:** Machine Learning and Wrap-Up
+* **Apr. 3/4:** Text Analysis in Python (guest lecture by Fiona Shen-Bayh, Political Science) [!!final presentations occur during sections in April!!]
+* **Apr. 10/11:** Text Analysis in R
+* **Apr. 17/18:** Intro to Machine Learning 
+* **Apr. 24/25:** Machine Learning Applications (guest lecture by Chris Kennedy, Biostatistics)
