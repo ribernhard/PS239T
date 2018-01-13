@@ -74,7 +74,7 @@ Unless otherwise specified, assignments should be turned in as **pdf documents**
 
 The class participation portion of the grade can be satisfied in one or more of the following ways:
 
-* attending the lecture and section
+* attending the lecture and section (note that section is non-optional)
 * asking and answering questions in class
 * contributing to class discussion through the bCourse site, and/or
 * collaborating with the campus computing community, either by attending a D-Lab or BIDS workshop, submitting a pull request to a campus github repository (including the class repository), answering a question on StackExchange, or other involvement in the social computing / digital humanities community.
@@ -95,7 +95,7 @@ Classes will follow a “workshop” style, combining lecture and lab formats. T
 
 ### Section
 
-The Wednesday "lab" section will generally be a less formal session dedicated to helping students with materials from lecture and homework. It will be mostly student led, so come with questions. If there are no questions, the lab turns into a "hackathon" where groups can work on the assignments together. It is not required but *strongly* encouraged, especially if you are having difficulty with the assignments. Attending office hours is not a substitute for attending section. 
+The Wednesday "lab" section will generally be a less formal session dedicated to helping students with materials from lecture and homework. It will be mostly student led, so come with questions. If there are no questions, the lab turns into a "hackathon" where groups can work on the assignments together. Section is required unless prior permission to miss it is obtained from both the instructor and one's groupmates. Attending office hours is not a substitute for attending section. 
 
 ### Computer Requirements
 
@@ -130,7 +130,8 @@ The schedule is subject to change based on the class's rate of progress.
 * **Mar. 13/14:** Qualtrics/MTurk
 * **Mar. 20/21:** Intro to Python
 * **Mar. 27/28:** SPRING BREAK [no class]
-* **Apr. 3/4:** Text Analysis in Python (guest lecture by Fiona Shen-Bayh, Political Science) [!!final presentations occur during sections in April!!]
+[Note: final presentations occur in lieu of regular section in April]
+* **Apr. 3/4:** Text Analysis in Python (guest lecture by Fiona Shen-Bayh, Political Science) 
 * **Apr. 10/11:** Text Analysis in R
 * **Apr. 17/18:** Intro to Machine Learning 
 * **Apr. 24/25:** Machine Learning Applications (guest lecture by Chris Kennedy, Biostatistics)
