@@ -104,6 +104,8 @@ The software needed for the course is as follows:
 * Access to the UNIX command line (e.g., a Mac laptop, a Bash wrapper on Windows)
 * Git
 * R and RStudio (latest versions)
+* Anaconda and Python 3 (latest versions)
+* Pandoc and LaTeX
 
 This requires a computer that can handle all this software. Almost any Mac will do the job. Most Windows machines are fine too if they have enough space and memory.
 
