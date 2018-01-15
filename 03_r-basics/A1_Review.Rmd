@@ -1,0 +1,91 @@
+---
+title: "Data Visualization"
+author: "PS239T"
+date: "Fall 2016"
+output: slidy_presentation
+---
+
+## Atomic Types
+
+| Type | Example |
+| -----| ------- |
+| numeric | `3` |
+| integer | `3L` |
+| character | `"3"` |
+| logical | `TRUE` |
+
+
+## Data Structures
+
+|  Dimension  | Homogeneous   | Heterogeneous |
+|----|---------------|---------------|
+| 1d | Atomic vector | List          |
+| 2d | Matrix        | Data frame    |
+| nd | Array         |               |
+
+## Types of Vectors
+
+- character
+- numeric
+- logical
+
+## Making stuff
+
+```{r, eval = F}
+# make a vector
+my.vector = c(thing1, thing1, thing1) 
+
+# add item to vector
+my.vector = c(my.vector, new.item)
+
+# make list
+my.list = list(thing1, thing2, thing3)
+
+# make matrix
+my.matrix = matrix(vector, nrow = X, ncol = X)
+```
+
+## Testing and Coercion
+
+```{r, eval = F}
+# helpful inspection functions
+class(obj) # returns class
+str(obj) # returns sructure
+length(obj) # returns lengh
+
+# coercing atomic vectors
+as.character(obj)
+as.logical(obj)
+as.numeric(obj)
+
+# in general
+as.thing(obj)
+```
+
+## Attributes and Names
+
+- metadata that describes data
+
+```{r, eval = F}
+names(obj)
+names(obj) < c("name1", "name2", "name3")
+```
+
+## Factors
+
+- categorical data
+- ordered or unordered
+
+```{r, eval = F}
+# basic call for unordered factor
+my.factor <- factor(a.vector, levels = c("level1", "level2","level3"))
+
+# basic call for ordered factor
+my.ordered <- ordered(a.vector, levels = c("level1","level2","level3"))
+
+# coerce something into a factor. 
+# basically an abreviated version of the `factor` function.
+as.factor(a.vector) 
+
+# coerce something back into a character (or whatever) vector
+as.character(my.factor)

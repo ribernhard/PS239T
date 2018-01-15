@@ -1,0 +1,150 @@
+---
+title: "Introduction to R"
+author: "PS239T"
+date: "Fall 2016"
+output: html_document
+---
+
+## 1. What's R?
+
+R is a versatile, open source programming/scripting language that's useful both for statistics but also data science. Inspired by the programming language [`S`][S].
+
+* Open source software under [GPL][].
+* Superior (if not just comparable) to commercial alternatives. R has over 7,000 user contributed packages at this time (October 2016). It's widely used both in academia and industry.
+* Available on all platforms (Unix, Windows, Linux).
+* As a result, if you do your analysis in R, anyone can easily replicate it.
+* Not just for statistics, but also general purpose programming.
+* Is object oriented and functional.
+* Large and growing community of peers.
+
+[S]: https://en.wikipedia.org/wiki/S_(programming_language)
+[GPL]: https://www.gnu.org/licenses/gpl.html
+
+## 2. R Studio
+
+There are two main ways of interacting with R: using the console or by using script files (plain text files that contain your code).
+
+The console window (in RStudio, the bottom left panel) is the place where R is waiting for you to tell it what to do, and where it will show the results of a command.  You can type commands directly into the console, but they will be forgotten when you close the session. It is better to enter the commands in the script editor, and save the script. This way, you have a complete record of what you did, you can easily show others how you did it and you can do it again later on if needed. You can copy-paste into the R console, but the Rstudio script editor allows you to 'send' the current line or the currently selected text to the R console using the `Ctrl-Enter` shortcut.
+
+At some point in your analysis you may want to check the content of variable or the structure of an object, without necessarily keep a record of it in your script. You can type these commands directly in the console. RStudio provides the `Ctrl-1` and `Ctrl-2` shortcuts allow you to jump between the script and the console windows.
+
+If R is ready to accept commands, the R console shows a `>` prompt. If it receives a command (by typing, copy-pasting or sent from the script editor using `Ctrl-Enter`; `Command-Enter` will also work on Macs), R will try to execute it, and when ready, show the results and come back with a new `>`-prompt to wait for new commands.
+
+If R is still waiting for you to enter more data because it isn't complete yet, the console will show a `+` prompt. It means that you haven't finished entering a complete command. This is because you have not 'closed' a parenthesis or quotation. If you're in RStudio and this happens, click inside the console window and press `Esc`; this should help you out of trouble.
+
+## 3. R Environment
+
+**Viewing objects in your global environment and how to clean them up**
+
+List objects in your current environment
+
+```{r, eval = FALSE}
+ls()
+```
+
+remove objects from your current environment
+
+```{r, eval = TRUE, echo = TRUE}
+x <- 5
+rm(x)
+```
+-- bonus round: where have we seen rm before? 
+
+remove all objects from your current environment
+
+```{r, eval = FALSE}
+a <- 7
+b <- 3
+rm(list = ls())
+```
+
+*Notice that we have nested one function inside another.*
+
+**Package management**
+
+* `install.packages(package-name)` will download a package from one of the CRAN mirrors assuming that a binary is available for your operating system. If you have not set a preferred CRAN mirror in your `options()`, then a menu will pop up asking you to choose a location.
+* `library(package-name)` will load a package so you can use it. It is required at the beginning of each R session.
+
+```{r, eval = FALSE}
+library(stats)
+```
+
+## 4. Basic Syntax
+
+**Comments**
+
+Use `#` signs to comment. Comment liberally in your R scripts, just like you did in Python. Anything to the right of a `#` is ignored by R. There is no docstring, or equivalent to `"""` in R
+
+**Assignment operator**
+
+`<-` is the assignment operator. It assigns values on the right to objects on the left. So, after executing `x <- 3`, the value of `x` is `3`. The arrow can be read as 3 **goes into** `x`.  You can also use `=` for assignments but not in all contexts so it is good practice to use `<-` for assignments. `=` should only be used to specify the values of arguments in functions, see below.
+
+In RStudio, typing `Alt + -` (push `Alt`, which is the same as `Option` on Macs, at the same time as the `-` key) will write ` <- ` in a single keystroke.
+
+```{r}
+experiment<-"current vs. voltage"
+```
+
+**Variable Names**
+
+Variable names can only contain letters, numbers, the underscore character, and (unlike Python) the period character. Whereas an object name like ```myobject.thing``` would point to the subclass or method ```thing``` of ```myobject```, R treats ```myobject.thing``` as its own entity. 
+
+**Printing**
+In R, the contents of an object can be printed by either simply executing the the object name or calling the ```print()``` function.  This works just like in Python 3!
+
+```{r, error=FALSE}
+# Executing the object name
+experiment
+# Printing the object R-style
+print(experiment)
+```
+
+**Help**
+
+* `?` + object opens a help page for that specific object
+* `??` + object searches help pages containing the name of the object
+
+```{r, eval = FALSE}
+?mean
+??mean
+```
+
+## Bonus: More about R
+
+From [Hadley Wickham](http://adv-r.had.co.nz/Introduction.html):
+# Note - this is the guy who wrote ggplot. We'll see his work again soon!
+
+If you are new to R, you might wonder what makes learning such a quirky language worthwhile. To me, some of the best features are:
+
+* It's free, open source, and available on every major platform. As a result, if you do your analysis in R, anyone can easily replicate it.
+
+* A massive set of packages for statistical modelling, machine learning, visualisation, and importing and manipulating data. Whatever model or graphic you're trying to do, chances are that someone has already tried to do it. At a minimum, you can learn from their efforts.
+
+* Cutting edge tools. Researchers in statistics and machine learning will often publish an R package to accompany their articles. This means immediate access to the very latest statistical techniques and implementations.
+
+* Deep-seated language support for data analysis. This includes features likes missing values, data frames, and subsetting.
+
+* A fantastic community. It is easy to get help from experts on the
+  [R-help mailing list](https://stat.ethz.ch/mailman/listinfo/r-help), [stackoverflow](http://stackoverflow.com/questions/tagged/r), or subject-specific mailing lists like [R-SIG-mixed-models](https://stat.ethz.ch/mailman/listinfo/r-sig-mixed-models) or [ggplot2](https://groups.google.com/forum/#!forum/ggplot2). You can also connect with other R learners via [twitter](https://twitter.com/search?q=%23rstats), [linkedin](http://www.linkedin.com/groups/R-Project-Statistical-Computing-77616), and through many local [user groups](http://blog.revolutionanalytics.com/local-r-groups.html).
+
+* Powerful tools for communicating your results. R packages make it easy to produce html or pdf [reports](http://yihui.name/knitr/), or create [interactive websites](http://www.rstudio.com/shiny/).
+
+* A strong foundation in functional programming. The ideas of functional programming are well suited to solving many of the challenges of data analysis. R provides a powerful and flexible toolkit which allows you to write concise yet descriptive code.
+
+* An [IDE](http://www.rstudio.com/ide/) tailored to the needs of interactive data analysis and statistical programming.
+
+* Powerful metaprogramming facilities. R is not just a programming language, it is also an environment for interactive data analysis. Its metaprogramming capabilities allow you to write magically succinct and concise functions and provide an excellent environment for designing domain-specific languages.
+
+* Designed to connect to high-performance programming languages like C, Fortran, and C++.
+
+Of course, R is not perfect. R's biggest challenge is that most R users are not programmers. This means that:
+
+* Much of the R code you'll see in the wild is written in haste to solve a pressing problem. As a result, code is not very elegant, fast, or easy to understand. Most users do not revise their code to address these shortcomings.
+
+* Compared to other programming languages, the R community tends to be more focussed on results instead of processes. Knowledge of software engineering best practices is patchy: for instance, not enough R programmers use source code control or automated testing.
+
+* Metaprogramming is a double-edged sword. Too many R functions use tricks to reduce the amount of typing at the cost of making code that is hard to understand and that can fail in unexpected ways.
+
+* Inconsistency is rife across contributed packages, even within base R. You are confronted with over 20 years of evolution every time you use R. Learning R can be tough because there are many special cases to remember.
+
+* R is not a particularly fast programming language, and poorly written R code can be terribly slow. R is also a profligate user of memory. 

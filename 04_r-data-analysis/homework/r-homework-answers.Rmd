@@ -1,0 +1,136 @@
+---
+---
+title: "R-homework-answers"
+author: "PS239T"
+date: "Fall 2016"
+output: html_document
+---
+
+### Setup environment
+
+```{r}
+# remove all objects
+rm(list=ls())
+
+# set YOUR working directory
+setwd(dir="~/Desktop/PS239T/10_r-data-analysis/homework")
+```
+
+
+### Import libraries
+```{r}
+library(foreign)
+library(dplyr)
+library(tidyr)
+```
+
+The data we'll be using today is actual survey data from one of my recent surveys, which asked respondents to rate pictures of candidates on a variety of traits. The data you see here has been aggregated across all the respondents; as loaded, each observation is a candidate picture observation (denoted by the variable "pic_id"). 
+
+### Load data
+```{r}
+candidate.evals <- read.csv(file="~/Desktop/PS239T/10_r-data-analysis/homework/candidate-evaluations.csv", stringsAsFactors=F)
+head(candidate.evals)
+```
+
+## 1. How do men and women candidates' ratings differ from one another?  
+
+### The condition variable contains information on candidate gender. The first part contains the experimental treatment condition (whether the candidate's gender was masculine or feminine), and the second part tells us whether it was a man or a woman. 
+
+1A. Using dplyr's separate function, create a new version of the dataset that splits the condition data into two new columns, "treatment" and "gender." Replace the treatment variable values with full names ("Masculine" and "Feminine"), and the gender variable values the same way ("Male", "Female"). 
+```{r}
+candidates <- candidate.evals %>%
+  separate(condition, into=c("treatment", "gender"), sep="_", remove=TRUE)
+
+candidates$treatment <- ifelse(candidates$treatment=="Masc", "Masculine", "Feminine")
+candidates$gender <- ifelse(candidates$gender=="Man", "Male", "Female")
+```
+
+1B. Create a new variable, "parentliness", that holds the values of "fatherliness" (if a man) or "motherliness" (if a woman). 
+```{r}
+candidates$parentliness <- ifelse(candidates$gender=="Male", 
+                                  candidates$fatherliness, 
+                                  candidates$motherliness)
+```
+
+1C. Using dplyr's select function, reduce the dataset to just the trait ratings for all six variables (attractiveness, competence, dominance, femininity, parentliness, electability) plus gender.
+```{r}
+gender.ratings <- candidates %>%
+  select(gender, attractiveness, competence, dominance, femininity, parentliness, electability)
+```
+
+1D. Use dplyr's "summarise_each" function with the t.test function to return a new dataset with the t-statistics and p-values comparing trait ratings for men to women, as well as the means for men and women on each trait. 
+```{r}
+ttest.results <- gender.ratings %>%
+  summarise_each(funs(mean.wom=mean(.[gender=="Female"], na.rm=T),
+                      mean.man=mean(.[gender=="Male"], na.rm=T),
+                      tstat=(t.test(.[gender == "Male"], .[gender =="Female"]))$statistic,
+             tpval=(t.test(.[gender == "Male"], .[gender == "Female"]))$p.value), 
+             vars=attractiveness:electability)
+```
+
+1E. Darn, that's ugly! Let's use gather and the separate functions again to turn this back into something readable. 
+```{r}
+trait.table <- ttest.results %>%
+  gather(key=var_func, value=value) %>%
+  separate(var_func, sep="_", into=c("trait", "func"))
+
+```
+
+1F. Let's do some clean-up here. Rename the traits to their real names (e.g., your final dataset should show "attractiveness", not "var1") and the functions to be something nice and readable (e.g, "t-statistic", "p.value", etc.). Finally, round the values to show three decimal places for the p-values and two decimal places for everything else. 
+
+``` {r}
+traits <- names(gender.ratings[,2:7])
+
+trait.table$trait <- ifelse(trait.table$trait=="vars1", traits[1],
+                            ifelse(trait.table$trait=="vars2", traits[2],
+                                   ifelse(trait.table$trait=="vars3", traits[3],
+                                          ifelse(trait.table$trait=="vars4", traits[4],
+                                                 ifelse(trait.table$trait=="vars5", traits[5], traits[6])))))
+
+trait.table$func <- ifelse(trait.table$func=="mean.wom", "Mean_Women",
+                            ifelse(trait.table$func=="mean.man", "Mean_Men",
+                                   ifelse(trait.table$func=="tstat", "T-Statistic",
+                                          "P-Value")))
+
+trait.table$value <- ifelse(trait.table$func=="P-Value",
+                            (format(round(trait.table$value, 3), nsmall = 3)), 
+                            (format(round(trait.table$value, 2), nsmall = 2)))
+```
+
+1G. Now we'll use spread one more time to turn this back into a readable table where each row is a trait. 
+
+``` {r}
+trait.tests <- trait.table %>%
+  spread(key=func, value=value)
+```
+
+
+1H. Finally, let's reorder the columns so that we see the t-statistic first and the p-value second, as we might see in a finished table. What have you learned about the differences between ratings of male and female candidates? 
+
+``` {r}
+trait.tests <- trait.tests[,c(1:3,5,4)]
+```
+
+## 2. Do different traits seem to predict vote share for men than for women? 
+
+### This is just observational data, so we can't yet say whether these ratings **affect** vote share. We're just interested in seeing whether there's a relationship. 
+
+2A. Let's subset the data into men and women before we run our regressions. 
+``` {r}
+women <- candidates[candidates$gender=="Female",]
+men <- candidates[candidates$gender=="Male",]
+```
+
+2B. Now, let's generate some simple OLS regressions. Competence and electability are the survey measures of vote choice, so using those in our regression is a bit like predicting the dependent variable with another dependent variable (we already know from previous research that they correlate highly). Instead, let's see whether any of our other four trait ratings predict vote share. What do you find? 
+``` {r}
+summary(lm(data=women, voteshare2p~attractiveness+dominance+femininity+parentliness))
+summary(lm(data=men, voteshare2p~attractiveness+dominance+femininity+parentliness))
+```
+
+2C. Let's double-check that our competence and electability variables do actually correlate highly with vote share. First, let's make an index variable that averages the two, called "survey_vote". Then, let's use that new variable to predict vote share in an OLS regression. Does it? 
+
+``` {r}
+candidates$survey_vote <- (candidates$competence+candidates$electability)/2
+
+summary(lm(data=candidates, voteshare2p~survey_vote))
+```

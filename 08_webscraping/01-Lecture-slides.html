@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PS239T: Welcome!</title>
+    <style>
+      /* Basic theme for remark slides */
+
+* {
+    .box-sizing(border-box);
+}
+*:before,
+*:after {
+    .box-sizing(border-box);
+}
+
+html {
+    font-size: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #FFFFFF;
+}
+
+a {
+    color: #00989e;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover, a:focus {
+    color: #00989e;
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: 3px solid #00989e;
+    outline-offset: 0;
+    background-color: #00989e;
+    color: #FFF;
+    text-decoration: none;
+}
+
+ol {
+    padding: 0 0 0 1.5em;
+    margin: 1em 0;
+}
+
+ul {
+    margin: 1em 0;
+    padding: 0 0 0 1em;
+}
+
+img {
+    vertical-align: middle;
+}
+
+hr {
+    height: 0;
+    margin: 1em 0;
+    border: 0;
+    border-top: 1px solid #cccccc;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    margin: 1em 0 0.5em;
+}
+
+b,
+strong {
+    font-weight: 500;
+}
+
+blockquote {
+    border-left: 5px solid #cccccc;
+    padding-left: 1em;
+    margin: 1em -1em;
+    font-style: italic;
+    color: #999999;
+}
+
+td {
+    padding: 10px;
+}
+
+th {
+    padding: 5px;
+}
+
+th, td {
+   border: 1px solid black;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+.remark-slide-number {
+    display: none;
+}
+
+.remark-slide {
+    display: table;
+}
+
+.remark-slide-content {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 4em;
+    font-size: 24px;
+}
+
+.remark-slide-content h1 {
+    font-size: 56px;
+    color: #9E0067;
+}
+
+.remark-slide-content h2 {
+    font-size: 48px;
+    color: #9E0067;
+}
+
+.remark-slide-content h3 {
+    font-size: 40px;
+    color: #9E0067;
+}
+
+.remark-slide-content h4 {
+    font-size: 36px;
+    color: #9E0067;
+}
+
+.remark-slide-content h5 {
+    font-size: 30px;
+    color: #9E0067;
+}
+
+.remark-slide-content h6 {
+    font-size: 24px;
+    color: #9E0067;
+}
+
+.remark-slide-content > :first-child {
+    margin-top: 0;
+}
+
+.remark-slide-content > :last-child {
+    margin-bottom: 0;
+}
+
+.float {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, main-title
+# Webscraping
+
+PS 239T: Fall 2016
+
+---
+## Learning Objectives
+
+> *   Explain the difference between webscraping and working with APIs
+> *   Understand how HTML works with your browser to display a website
+> *   Identify HTML tags and attributes
+> *   Understand how CSS works to format a website
+> *   Identify CSS selectors
+> *   Alter a website using Google Developer Tools.
+
+---
+## Why Webscrape
+
+* Tons of web data useful for social scientists and humanists
+	* social media
+	* news media
+	* government publications
+	* organizational records
+
+* Two kinds of ways to get data off the web
+	* APIs - i.e. application-facing, for computers (last week)
+	* Webscraping - i.e. user-facing websites, for humans (this week)
+
+
+---
+## Webscraping v. APIs
+
+* Webscraping Benefits
+	* Pretty much any content that can be viewed on a webpage can be scraped. (https://blog.hartleybrody.com/web-scraping/)
+	* No API needed
+	* No rate-limiting or authentication (usually)
+
+* Webscraping Challenges
+	* Rarely tailored for researchers
+	* Messy, unstructured, inconsistent
+	* Entirely site-dependent
+
+* Rule of thumb:
+    - Check for API first. If not available, scrape.
+
+---
+## Some Disclaimers
+
+* Check a site's terms and conditions before scraping.
+* Be nice - don't hammer the site's server.
+* Sites change their layout all the time. Your scraper will break.
+ 
+---
+## What's a website
+
+* Some combination of codebase, database
+* The "front end" product is HTML + CSS stylesheets + javascript
+
+![html](img/html.png)
+
+* Your browser turns that into a tidy layout
+
+![layout](img/layout.png)
+
+---
+## HTML: Basic structure
+
+```html
+<!DOCTYPE html>
+<html>
+	 <head>
+		<title>Page title</title>
+	</head>
+ 	<body>
+ 		<p>Hello world!</p>
+ 	</body>
+</html>
+```
+---
+## HTML is a Tree
+
+<img src="http://www.openbookproject.net/tutorials/getdown/css/images/lesson4/HTMLDOMTree.png" style="width: 90%">
+
+---
+## Document Object Model
+
+Most modern browsers have a parser that reads in the HTML document, parses it into a DOM (Document Object Model) structure, and then renders the DOM structure.
+
+Much like HTTP, the DOM is an agreed-upon standard.
+
+The DOM is much more than what I've described, but for our purposes, what is most important to understand is that the text is only one part of an HTML element, and we need to select it explicitly.
+
+---
+## DOM
+
+![dom](http://www.cs.toronto.edu/~shiva/cscb07/img/dom/treeStructure.png)
+
+---
+## HTML Elements
+
+Generally speaking, an HTML element has three components:
+
+1. Tags (starting and ending the element)
+2. Atributes (giving information about the element)
+3. Text, or Content (the text inside the element)
+
+![elements](https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/HTML_element_structure.svg/330px-HTML_element_structure.svg.png)
+
+---
+## HTML: Tags
+
+![html-tags](img/html-tags.png)
+
+[Image credit](http://miriamposner.com/blog/wp-content/uploads/2011/11/html-handout.pdf)
+
+---
+## Common HTML tags
+
+| Tag        | Meaning           | 
+| ------------- |-------------  |
+| `<head>`     | page header (metadata, etc | 
+| `<body>`     | holds all of the content |
+| `<p>` | regular text (paragraph) |
+| `<h1>`,`<h2>`,`<h3>` | header text, levels 1, 2, 3  |
+| `ol,`,`<ul>`,`<li>` | ordered list, unordered list, list item |
+| `<a href="page.html">` | link to "page.html" |
+| `<table>`,`<tr>`,`<td>`  | table, table row, table item |
+| `<div>`,`<span>` | general containers |
+
+---
+## HTML Attributes
+
+* HTML elements can have attributes.
+* Attributes provide additional information about an element.
+* Attributes are always specified in the start tag.
+* Attributes come in name/value pairs like: name="value"
+
+![html-attributes](img/attributes.png)
+
+---
+## CSS
+
+* CSS = Cascading Style Sheet. 
+* CSS defines how HTML elements are to be displayed
+* HTML came first. But it was only meant to define content, not format it. While HTML contains tags like `<font>` and `<color>`, this is a very inefficient way to develop a website.
+* To solve this problem, CSS was created specifically to display content on a webpage. Now, one can change the look of an entire website just by changing one file.
+* Most web designers litter the HTML markup with tons of `classe`s and `id`s to provide "hooks" for their CSS.
+* You can piggyback on these to jump to the parts of the markup that contain the data you need.
+
+---
+## CSS Anatomy
+
+**Selectors**
+
+| Type  | HTML    | CSS Selector   | 
+| :----- | :-------: | -------------:  |
+| Element | `<a>`,     | `a` <br> `p a`| 
+| Class | `<a class="blue">`  | `.blue` <br> `a.blue` |
+| ID | `<a id="blue">` | `#blue` <br> `a#blue` |
+
+**Declarations**
+  - Selector: `a`
+  - Property: `background-color`
+  - Value: `yellow`
+
+---
+## CSS Anatomy: Hooks
+
+![css-rule](img/css-rule-2.png)
+
+---
+## CSS + HTML
+
+```html
+<body>
+	<table id="content">
+    	<tr class='name'>
+        	<td class='firstname'>
+         		Kurtis
+        	</td>
+        	<td class='lastname'>
+          		McCoy
+        	</td>
+    	</tr>
+    	<tr class='name'>
+      		<td class='firstname'>
+          		Lea
+        	</td>
+        	<td class='lastname'>
+          		Guerrero
+     		</td>
+    	</tr>
+ 	</table>
+</body>
+```
+---
+## More Practice
+* A great resource to practice your CSS selection skills is http://flukeout.github.io/#
+
+---
+> #### Exercises 1
+> 
+> Find the CSS selectors for the following elements in the HTML above.
+> (Hint: There will be multiple solutions for each)
+> 
+> 1. The entire table
+> 2. The row containing "Kurtis McCoy"
+> 3. Just the element containing first names
+> 
+
+---
+## Why This Matters
+
+Basic strategy of webscraping:
+
+1. Use your browser‘s “inspector” to discover what kind of HTML element your
+data is in.
+2. Think about how you can differentiate those elements from other, similar elements in the webpage using CSS.
+3. Use Python and add-on modules like BeautifulSoup to extract just that data.
+
+---
+## Inspect Element
+
+Google Chrome comes with great developer tools to help parse a webpage.
+
+<img src ="img/inspect-element.png", style="height: 25%", class="float"> 
+
+The inspector gives you the HTML tree, as well as all the CSS selectors and style information.
+
+---
+## Inspect Element
+
+![inspect element](img/inspect-element-css.png)
+
+---
+> #### Exercise 2
+> 
+> Go to http://rochelleterman.github.io/. Using Google Chrome's inspect element:
+> 
+> 1. Change the background color of each of the rows in the table
+> 2. Find the image source URL
+> 3. Find the HREF attribute of the link.
+> 
+> Useful CSS declarations [here](http://miriamposner.com/blog/wp-content
+> uploads/2011/11/usefulcss.pdf)
+
+> #### Extra Challenge:
+> 
+> Go to any website, and redesign the site using Google Chrome's inspect 
+> element.
+> 
+
+---
+## Putting it all together:
+
+1. Use Inspect Element to see how your data is structured
+2. Pay attention to HTML tags and CSS selectors
+3. Pray that there is some kind of pattern
+4. Leverage that pattern using Python
+
+---
+## Scraping Multiple Pages and Difficult sites
+
+* Today we will scrape one webpage. But what if you wanted to do many?
+* Two solutions:
+    - URL patterns
+    - Crawling ([Scrapy](http://scrapy.org/))
+* Lots of javascript or other problems? Check out [Selenium for Python](https://selenium-python.readthedocs.org/)
+
+
+**To the jupyter notebook!**
+
+    </textarea>
+    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+    <script></script>
+  </body>
+</html>

@@ -1,0 +1,472 @@
+---
+title: "Plotting and Visualization in R"
+author: "PS239T"
+date: "Fall 2016"
+output: html_document
+---
+
+> "Visualizing your data should be the beginning and end of every project."
+
+> "Think--what is the story you're trying to tell? This picture **should** be worth a thousand words."
+
+# Plotting in R
+
+There are two major sets of tools for creating plots in R:
+
+* 1. [base](#1-r-base-graphics), which come with all R installations. These are mostly a quick and dirty tool--they're often hard to read and hard to modify, but can be useful if you need to whip up a quick histogram or something similar. 
+* 2. [ggplot2](#2-ggplot2), a stand-alone package. This is going to be our primary tool for examining our data visually. It's very powerful and makes for beautiful visualizations, but the number of options makes for a steeper learning curve at first.  
+
+Note that other plotting facilities do exist (notably **lattice**), but base and ggplot2 are by far the most popular. 
+
+### setup environment
+
+```{r}
+# remove all objects
+rm(list=ls())
+
+# set working directory
+setwd(dir="~/YOURPATHHERE/PS239T/11_r-visualization/")
+```
+
+### The dataset
+For the following examples, we will using the gapminder dataset we saw last week. Gapminder is a country-year dataset with information on life expectancy, among other things.
+
+```{r}
+dat <- read.csv("data/gapminder-FiveYearData.csv")
+```
+
+# 1. R base graphics
+
+* *Minimal* call takes the following form
+
+```{r, eval=F}
+plot(x=)
+```
+```{r}
+# Note that when asked to plot a single vector, R will assume the index positions of each vector element are the implied horizontal dimension
+plot(x = dat$lifeExp) 
+```
+
+* *Basic* call takes the following form
+
+```{r, eval=F}
+plot(x=, y=)
+```
+```{r}
+plot(x = dat$gdpPercap, y = dat$lifeExp)
+```
+
+### 1a. Scatter and Line Plots
+
+* The "type" argument accepts the following character indicators
+* "p" -- point/scatter plots (default plotting behavior)
+
+```{r, fig.cap=" "}
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p")
+```
+* "l" -- line graphs
+
+```{r, fig.cap=" "}
+# Note that "line" does not create a smoothing line, just connected points
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="l") 
+
+```
+* "b" -- both line and point plots
+
+```{r, fig.cap=" "}
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="b") 
+```
+
+### 1b. Histograms and density Plots
+
+* Certain plot types require different calls outside of the "type" argument
+* Ex) Histograms
+
+```{r, fig.cap=" "}
+hist(x=dat$lifeExp)
+hist(x=dat$lifeExp, breaks=5)
+hist(x=dat$lifeExp, breaks=10)
+```
+
+* Ex) Density plots
+
+```{r, fig.cap=" "}
+# Create a density object (NOTE: be sure to remove missing values)
+age.density<-density(x=dat$lifeExp, na.rm=T)
+# Check the class of the object
+class(age.density)
+# View the contents of the object
+age.density 
+
+# Plot the density object
+plot(x=age.density)
+# Plot the density object, bandwidth of 0.5
+plot(x=density(x=dat$lifeExp, bw=.5, na.rm=T))
+# Plot the density object, bandwidth of 2
+plot(x=density(x=dat$lifeExp, bw=2, na.rm=T))
+# Plot the density object, bandwidth of 6
+plot(x=density(x=dat$lifeExp, bw=6, na.rm=T)) 
+```
+
+### 1c. Labels
+
+* Basic call with popular labeling arguments
+
+```{r, eval=F}
+plot(x=, y=, type="", xlab="", ylab="", main="") 
+```
+
+* From the previous example
+
+```{r, fig.cap=" "}
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p", xlab="GDP per cap", ylab="Life Expectancy", main="Life Expectancy ~ GDP") # Add labels for axes and overall plot
+```
+
+### 1d. Axis and size scaling
+
+Currently it’s hard to see the relationship between the points due to some strong outliers in GDP per capita. We can change the scale of units on the x axis using scaling arguments.
+
+* Basic call with popular scaling arguments
+
+```{r, eval=F}
+plot(x=, y=, type="", xlim=, ylim=, cex=)
+```
+
+* From the previous example
+
+```{r, fig.cap=" "}
+# Create a basic plot
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p")
+# Limit gdp (x-axis) to between 1,000 and 20,000
+plot(x = dat$gdpPercap, y = dat$lifeExp, xlim = c(1000,20000)) 
+# Limit gdp (x-axis) to between 1,000 and 20,000, increase point size to 2
+plot(x = dat$gdpPercap, y = dat$lifeExp, xlim = c(1000,20000), cex=2) 
+# Limit gdp (x-axis) to between 1,000 and 20,000, decrease point size to 0.5
+plot(x = dat$gdpPercap, y = dat$lifeExp, xlim = c(1000,20000), cex=0.5)  
+```
+
+### 1e. Graphical parameters
+
+* Basic call with popular scaling arguments
+
+```{r, eval=F}
+plot(x=, y=, type="", col="", pch=, lty=, lwd=)
+```
+
+* Colors
+
+```{r}
+colors() # View all elements of the color vector
+colors()[179] # View specific element of the color vector
+```
+
+Another option: [R Color Infographic](http://research.stowers-institute.org/efg/R/Color/Chart/ColorsChart1.jpg)
+```{r, fig.cap=" "}
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p", col=colors()[145]) # or col="gold3"
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p", col="seagreen4") # or col=colors()[578]
+```
+
+* Point Styles and Widths
+
+[A Good Reference](http://www.endmemo.com/program/R/pic/pchsymbols.png)
+
+```{r, fig.cap=" "}
+# Change point style to crosses
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p", pch=3) 
+# Change point style to filled squares
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p",pch=15) 
+# Change point style to filled squares and increase point size to 3
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p",pch=15, cex=3) 
+# Change point style to "w"
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p", pch="w")
+# Change point style to "$" and increase point size to 2
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p",pch="$", cex=2) 
+```
+
+* Line Styles and Widths
+
+```{r, fig.cap=" "}
+# Line plot with solid line
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="l", lty=1)
+# Line plot with medium dashed line
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="l", lty=2)
+# Line plot with short dashed line
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="l", lty=3)
+# Change line width to 2
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="l", lty=3, lwd=2)
+# Change line width to 5
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="l",  lwd=5)
+# Change line width to 10 and use dash-dot
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="l",  lty=4, lwd=10)
+```
+
+### 1f. Annotations, reference lines, and legends]
+
+* Text 
+
+```{r, fig.cap=" "}
+# plot the line first
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p")
+# now add the label
+text(x=40000, y=50, labels="Evens Out", cex = .75)
+```
+
+* Reference Lines
+
+```{r, fig.cap=" "}
+# plot the line
+plot(x = dat$gdpPercap, y = dat$lifeExp, type="p")
+# now the guides
+abline(v=40000, h=75, lty=2)
+```
+
+So, plot gets us the basics--but it's VERY basic. As we said above, it's usually not much use except as a very rough sketch of our data, like we might want to generate during exploratory data analysis. For more than the basics, we need ggplot. 
+
+
+# 2. ggplot2
+
+### 2a. Why ggplot?
+
+* More elegant & compact code than with base graphics 
+* More aesthetically pleasing defaults than lattice
+* Very powerful for exploratory data analysis
+* Follows a grammar, just like any language.
+* It defines basic components that make up a sentence. In this case, the grammar defines components in a plot.
+* *G*rammar of *g*raphics (gg) originally coined by Lee Wilkinson
+
+### 2b. Grammar
+
+The general call for ggplot2 looks like this:
+  
+```{r, eval=FALSE}
+ggplot(data=, aes(x=, y=), color=, size=,) + geom_type1()+geom_type2()
+```
+
+The *grammar* involves some basic components:
+
+1. **Data**: a data frame that you pass in as an argument. 
+2. **Aes**thetics: How your data are represented visually, aka "mapping". Which variables are shown on x, y axes, as well as color, size, shape, etc.
+3. **Geom**etry: The geometric objects in a plot. points, lines, polygons, etc.
+
+The key to understanding ggplot2 is thinking about a figure in layers: just like you might do in an image editing program like Photoshop, Illustrator, or Inkscape. Each layer gets added on top of the previous one, so you can "stack" additional layers of information as needed. 
+
+Let's look at an example:
+
+```{r}
+library(ggplot2)
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+```
+
+So the first thing we do is call the `ggplot` function. This function lets R know that we’re creating a new plot, and any of the arguments we give the ggplot function are the global options for the plot: they apply to all layers on the plot.
+
+Here, we’ve passed in two arguments to `ggplot`. First, we tell ggplot what `data` we want to show on our figure, in this example the `gapminder` data we read in earlier. 
+
+For the second argument we passed in the `aes` function, which tells `ggplot` how variables in the data map to aesthetic properties of the figure, in this case the x and y locations. Here we told ggplot we want to plot the `lifeExp` column of the gapminder data frame on the x-axis, and the `gdpPercap` column on the y-axis. Notice that we didn’t need to explicitly pass `aes` these columns (e.g. `x = gapminder[, "lifeExp""])`, this is because ggplot is smart enough to know to look in the data for that column!
+
+By itself, the call to ggplot isn’t enough to draw a figure:
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp))
+```
+
+We need to tell `ggplot` **how** we want to visually represent the data, which we do by adding a new `geom` layer. In our example, we used `geom_point`, which tells ggplot we want to visually represent the relationship between x and y as a scatterplot of points:
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp)) + geom_point()
+
+# same as
+my_plot <- ggplot(data = dat, aes(x = gdpPercap, y = lifeExp))
+my_plot + geom_point()
+```
+
+#### Challenge 1
+
+Modify the example so that the figure visualise how life expectancy has changed over time:
+
+Hint: the gapminder dataset has a column called "year"", which should appear on the x-axis.
+
+```{r}
+# YOUR CODE HERE
+```
+
+### 2c. Anatomy of `aes`
+
+In the previous examples and challenge we’ve used the `aes` function to tell the scatterplot geom about the **x** and **y** locations of each point. Another aesthetic property we can modify is the point **color**. 
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp, color=continent)) + geom_point()
+```
+
+In base plotting, we have to specify particular properties, like `color="red"` or `size=10`, which is a bit limiting if we have to do every modification by hand!  Inside ggplot's `aes()` function, however, these arguments are passed entire variables, whose values will then be displayed using different realizations of that aesthetic.
+
+**Color** isn't the only aesthetic argument we can set to display variation in the data. We can also vary by shape, size, etc. Try playing around with the options in the cell below. 
+
+```{r, eval=FALSE}
+ggplot(data=, aes(x=, y=, by =, color=, linetype=, shape=, size=))
+```
+
+### 2d. Layers
+
+In the previous challenge, you plotted lifExp over time. Using a scatterplot probably isn’t the best for visualising change over time. Instead, let’s tell ggplot to visualise the data as a line plot:
+
+```{r}
+ggplot(data = dat, aes(x=year, y=lifeExp, by=country, color=continent)) + geom_line()
+```
+
+Instead of adding a `geom_point` layer, we’ve added a `geom_line` layer. We’ve added the **by** aesthetic, which tells ggplot to draw a line for each country.
+
+But what if we want to visualise both lines and points on the plot? We can simply add another layer to the plot:
+
+```{r}
+ggplot(data = dat, aes(x=year, y=lifeExp, by=country, color=continent)) + geom_line() + geom_point()
+```
+
+It’s important to note that each layer is drawn on top of the previous layer. In this example, the points have been drawn on top of the lines. Here’s a demonstration:
+
+```{r}
+ggplot(data = dat, aes(x=year, y=lifeExp, by=country)) + geom_line(aes(color=continent)) + geom_point()
+```
+
+In this example, the aesthetic mapping of **color** has been moved from the global plot options in ggplot to the `geom_line` layer so it no longer applies to the points. Now we can clearly see that the points are drawn on top of the lines.
+
+#### Challenge 2
+
+Switch the order of the point and line layers from the previous example. What happened?
+
+### 2e. Labels 
+
+Labels are considered to be their own layers in ggplot.
+
+```{r}
+# add x and y axis labels
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp, color=continent)) + geom_point() + xlab("GDP per capita") + ylab("Life Expectancy") + ggtitle("My fancy graph")
+```
+
+So are scales:
+
+```{r}
+# limit x axis from 1,000 to 20,000
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp, color=continent)) + geom_point() + xlab("GDP per capita") + ylab("Life Expectancy") + ggtitle("My fancy graph") + xlim(1000, 20000)
+```
+
+Note that we get a warning message that some of the data has been dropped due to the new limits we imposed. 
+
+### 2f. Transformations and Stats
+
+ggplot also makes it easy to overlay statistical models over the data. To demonstrate we’ll go back to an earlier example:
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp, color=continent)) + geom_point()
+```
+
+We can change the scale of units on the x axis using the `scale` functions. These control the mapping between the data values and visual values of an aesthetic. This is nice because we don't have to apply the transformations we might want for graphing on our real data:
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp, color=continent)) + geom_point() + scale_x_log10()
+```
+
+The `log10` function applied a transformation to the values of the `gdpPercap` column before rendering them on the plot, so that each multiple of 10 now only corresponds to an increase in 1 on the transformed scale, e.g. a GDP per capita of 1,000 is now 3 on the y axis, a value of 10,000 corresponds to 4 on the x axis and so on. This makes it easier to visualise the spread of data on the x-axis.
+
+We can fit a simple relationship to the data by adding another layer, `stat_smooth` (in many cases, but not all, `geom_smooth` and `stat_smooth` are interchangeable):
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp, color=continent)) + geom_point() + scale_x_log10() + stat_smooth(method="lm")
+```
+
+Note that we currently have 5 lines, one for each region, because the **color** option is the global `aes` function.. But if we move it, we get different restuls:
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp)) + geom_point(aes(color=continent)) + scale_x_log10() + stat_smooth(method="lm")
+```
+
+Now the `stat_smooth` operation is only acting on the x and y specified within `aes`. This tells us that what we specify as our aesthetic also affects future layers. Here, the **color** aesthetic is only applied to the mapping of `geom_point`, not the line generated by `stat_smooth`. 
+
+As you might expect, we can set other properties within each additional layer as well. Here, we can make the line thicker by setting the **size** aesthetic in the geom_smooth layer:
+
+```{r}
+ggplot(data = dat, aes(x = gdpPercap, y = lifeExp)) + geom_point(aes(color=continent)) + scale_x_log10() + stat_smooth(method="lm", size = 1.5)
+```
+
+#### Challenge 3
+
+Modify the color and size of the points on the point layer in the previous example so that they are fixed (i.e. not reflective of continent).
+
+Hint: do not use the first `aes` function.
+
+```{r}
+# YOUR CODE HERE
+```
+
+### 2g. Facets
+
+Earlier we visualised the change in life expectancy over time across all countries in one plot. Alternatively, we can split this out over multiple panels by adding a layer of **facet** panels:
+
+```{r}
+ggplot(data = dat, aes(x = year, y = lifeExp, color=country)) +
+  geom_line() + facet_wrap( ~ continent) + theme(legend.position="none") 
+  # I've removed the legend here so that the charts themselves will be visible. 
+```
+
+### 2h. Putting it all together
+
+This is just a taste of what you can do with ggplot2. RStudio provides a really useful [cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) of the different layers available, as do the authors of the R Graphic [cookbook](http://www.cookbook-r.com/Graphs/), and more extensive documentation is available on the [ggplot2 website](http://docs.ggplot2.org/current/). Finally, if you have no idea how to change something, a quick google search will usually send you to a relevant question and answer on Stack Overflow with reusable code to modify!
+
+**bar plots**
+
+```{r}
+# count of lifeExp bins
+ggplot(data = dat, aes(x = lifeExp)) + geom_bar(stat="bin")
+
+# with color representing regions
+ggplot(data = dat, aes(x = lifeExp, fill = continent)) + geom_bar(stat="bin")
+```
+
+**box plots**
+
+```{r}
+ggplot(data = dat, aes(x = continent, y = lifeExp)) + geom_boxplot()
+```
+
+#### Challenge 4 
+
+Create a density plot of GDP per capita, filled by continent.
+
+Advanced: 
+- Transform the x axis to better visualise the data spread. 
+- Add a facet layer to panel the density plots by year.
+
+```{r}
+# YOUR CODE HERE.
+```
+
+###. Exporting
+
+Two basic image types
+
+1) **Raster/Bitmap** (.png, .jpeg)
+
+Every pixel of a plot contains its own separate coding; not so great if you want to resize the image. In other words, if you expect to do resizing, or the chart might be displayed at a very different size than what you see on your screen (e.g., a conference presentation), you probably don't want these formats. 
+
+```{r, eval=FALSE}
+jpeg(filename="example.png", width=, height=)
+plot(x,y)
+dev.off()
+```
+
+2) **Vector** (.pdf, .ps)
+
+Every element of a plot is encoded with a function that gives its coding conditional on several factors; great for resizing (presentations, etc.). 
+
+```{r, eval=FALSE}
+pdf(filename="example.pdf", width=, height=)
+plot(x,y)
+dev.off()
+```
+
+**Exporting with ggplot**
+
+```{r, eval=FALSE}
+# Assume we saved our plot is an object called example.plot
+ggsave(filename="example.pdf", plot=example.plot, scale=, width=, height=)
+```
