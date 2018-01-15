@@ -46,7 +46,7 @@ Python is a popular language for scientific computing, and great for general-pur
 
 Regardless of how you choose to install it, please make sure you install Python version 3.x and not version 2.x (e.g., 3.5 is fine, but not 2.7). 
 
-We will teach Python using the IPython notebook, a programming environment that runs in a web browser. For this to work you will need a reasonably up-to-date browser. The current versions of the Chrome, Safari and Firefox browsers are all supported (some older browsers, including Internet Explorer version 9 and below, are not).
+We will teach Python using the jupyter notebook, a programming environment that runs in a web browser. For this to work you will need a reasonably up-to-date browser. The current versions of the Chrome, Safari and Firefox browsers are all supported (some older browsers, including Internet Explorer version 9 and below, are not).
 
 #### Windows
 
@@ -108,7 +108,7 @@ Sublime Text is a more advanced editor. Download Sublime Text 3 [here](https://w
 
 ## 6. Pandoc and Latex
 
-Pandoc is a univesal document converter. We use it to convert ipython notebooks into pdfs for assignments. For PDF output, you’ll also need to install LaTeX, a type-setting system. We recommend that you do the MacTex full install.
+Pandoc is a universal document converter. It can be used to convert scripts (like in jupyter notebooks) into pdfs for assignments. For PDF output, you’ll also need to install LaTeX, a type-setting system. We recommend that you do the MacTex full install.
 
 #### Windows
 Install Pandoc and Latex using the instructions [here](http://pandoc.org/installing.html).
@@ -138,7 +138,7 @@ If git and python and nano (a text editor) have been installed, those commands *
 
 **NB**: If you're using git bash (Windows), the `R --version` command may not work. In this case, just make sure you can open up RStudio. One possible solution: The Software Carpentry installer may need to run as Administrator. (Right click the install app, select “Run as administrator”).
 
-Ipython is a python development environment that comes pre-installed with the Anaconda python distribution. To see if you have it, type the following into your terminal window:
+Double-check that you are able to open a jupyter notebook (a document that combines computer code and rich-text elements like photos in an application that uses your browser window):
 
 ```bash
 $ jupyter notebook
