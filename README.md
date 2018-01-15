@@ -1,5 +1,5 @@
 # PS239T
-Introduction to Computational Tools for Social Science
+**Introduction to Computational Tools for Social Science**
 
 This course will provide graduate students the technical skills necessary to conduct research in computational social science and digital humanities, introducing them to the basic computer literacy, programming skills, and application knowledge that students need to be successful in further methods work.
 
