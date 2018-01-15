@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Easily create slideshow presentations from markdown with remark.js</title>
+    <style>
+      /* Basic theme for remark slides */
+
+* {
+    .box-sizing(border-box);
+}
+*:before,
+*:after {
+    .box-sizing(border-box);
+}
+
+html {
+    font-size: 100%;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    line-height: 1.5;
+    color: #555555;
+    background-color: #FFFFFF;
+}
+
+a {
+    color: #00989e;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover, a:focus {
+    color: #00989e;
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: 3px solid #00989e;
+    outline-offset: 0;
+    background-color: #00989e;
+    color: #FFF;
+    text-decoration: none;
+}
+
+ol {
+    padding: 0 0 0 1.5em;
+    margin: 1em 0;
+}
+
+ul {
+    margin: 1em 0;
+    padding: 0 0 0 1em;
+}
+
+img {
+    vertical-align: middle;
+}
+
+hr {
+    height: 0;
+    margin: 1em 0;
+    border: 0;
+    border-top: 1px solid #cccccc;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    margin: 1em 0 0.5em;
+}
+
+b,
+strong {
+    font-weight: 500;
+}
+
+blockquote {
+    border-left: 5px solid #cccccc;
+    padding-left: 1em;
+    margin: 1em -1em;
+    font-style: italic;
+    color: #999999;
+}
+
+.remark-slide-number {
+    display: none;
+}
+
+.remark-slide {
+    display: table;
+}
+
+.remark-slide-content {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 4em;
+    font-size: 24px;
+}
+
+.remark-slide-content h1 {
+    font-size: 56px;
+    color: #9E0067;
+}
+
+.remark-slide-content h2 {
+    font-size: 48px;
+    color: #9E0067;
+}
+
+.remark-slide-content h3 {
+    font-size: 40px;
+    color: #9E0067;
+}
+
+.remark-slide-content h4 {
+    font-size: 36px;
+    color: #9E0067;
+}
+
+.remark-slide-content h5 {
+    font-size: 30px;
+    color: #9E0067;
+}
+
+.remark-slide-content h6 {
+    font-size: 24px;
+    color: #9E0067;
+}
+
+.remark-slide-content > :first-child {
+    margin-top: 0;
+}
+
+.remark-slide-content > :last-child {
+    margin-bottom: 0;
+}
+
+.remark-code-line {
+    white-space: normal;
+    background-color: #000;
+    border: 1px solid #000;
+    color: #fff;
+    padding: 0 1em;
+}
+
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, main-title
+
+# Computational Text Analysis
+
+#### Rochelle Terman
+
+
+---
+## Why Computational Text Analysis
+
+- We care about language
+- Social Scientists / Humanists have always used texts
+- There are costs to large-scale text analysis
+- Computers can lower these costs
+
+---
+## 4 Principles of Computational Text Analysis
+
+From Grimmer and Stewart (2013)
+1. All Quantitative Models of Language Are Wrong—But Some Are Useful
+2. Quantitative methods for text amplify resources and augment humans. 
+3. There is no globally best method for automated text analysis.
+4. Validate, Validate, Validate. 
+
+---
+### An Overview of Methods
+![overview](img/overview.png)
+
+---
+## Methods We'll be Covering
+
+1. Dictionary Methods (i.e. Sentiment Analysis)
+2. Discriminating / Distinctive Words
+3. Document Similarity
+4. Clustering
+5. Topic Modeling
+6. CTA for Humanists
+
+---
+## Methods We Won't be Covering in Depth
+
+1. Information retrieval
+2. Natural Language Processing
+3. Scraping and acquiring texts
+
+---
+## Acquiring Texts
+
+1. Goal: machine readable text
+2. plain text (`.txt` or `.csv`) file.
+3. UTF-8, ASCII
+4. Metadata
+5. Directory of `.txt`'s or a "tidy" dataset
+
+Learn more about encodings:
+* [Cast of Characters- ASCII, ANSI, UTF-8 and all that](http://vlaurie.com/computers2/Articles/characters.htm)
+* [Joel Spolsky's 'The Absolute Minimum'](http://www.joelonsoftware.com/articles/Unicode.html)
+
+---
+## Sources
+
+* Online databases, e.g. LexisNexis (batch downloads)
+* Websites (Scraping, APIs)
+* Archives (High-quality scanner + optical character recognition)
+
+---
+## Corpora We'll be Analyzing
+
+* Monographs (Machiavelli's Prince, British Fiction)
+* News Articles (about women living outside U.S.)
+* Song Lyrics (Michael Jackson's Thriller)
+* Plays (by Shakespeare)
+
+---
+## Let's Get Started
+
+1. Download the [Class Repo](https://github.com/rochelleterman/text-analysis-dhbsi) as a zip file.
+2. Unzip the file in a location of your choice.
+3. Find the **path** of the repo and write it down.
+4. Downlaod the R packages listed in [Tech-Requirements](Tech-Requirements.md)
+
+    </textarea>
+    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js"></script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+    <script></script>
+  </body>
+</html>

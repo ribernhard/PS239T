@@ -1,0 +1,74 @@
+---
+title: "The MTurk API"
+author: "PS239T"
+date: "Fall 2016"
+output: html_document
+---
+
+### Using the MTurk API
+
+Amazon's Mechanical Turk is an online service that connects those looking to have tasks completed, called "Requesters", with those looking for jobs, called "Workers" (or more casually, "Turkers"). Today we're going to explore using an API to post jobs, called HITs ("Human Intelligence Tasks") and contact workers. You can easily post jobs using MTurk's browser interface, but emailing people (for instance, to follow up) through the browser is much more difficult.  
+
+
+Before getting started, you'll need to go to https://requester.mturk.com and create a requester (not a worker!) account. 
+
+```{r}
+# install.packages("MTurkR") # Only needs to be done once
+library(MTurkR)
+```
+
+# Set up your API information
+
+This example uses Rachel's MTurk Account (myr414@gmail.com).
+
+The first entry is your access key ID; the second entry is your API key, which they call (confusingly) a secret access key. 
+
+To get these, you would need to set up an Amazon Web Services account (https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMechanicalTurkGettingStartedGuide/SetUp.html). We're not doing that today because you have to verify your identity by faxing (!) forms and connecting a bank account, which also must be verified. So, this code won't work for you unless you already have that set up and can swap in your own credentials. It's here for when you need it. 
+
+```{r}
+# This sets the keys in your global environment 
+Sys.setenv("AWS_ACCESS_KEY_ID"="X",
+           "AWS_SECRET_ACCESS_KEY" = "Y")
+
+# When you do this in real life, swap these out for your credentials. 
+```
+
+# To contact workers with a HIT: 
+
+Usually you'll read in a .csv that has a column named "WorkerId." Today, we're creating our own vector of IDs.  
+```{r}
+workers <- c("A123", "B123", "C456", "D456", "E789")
+testworker <- "AYT75FSGV1IGR" # This is my ID - it's ALWAYS best to test these out by emailing yourself first to make sure the formatting is right, links work, etc. 
+```
+
+```{r}
+# Create an email subject:
+subject <- "Complete a Quick Mechanical Turk Follow-Up Survey"
+
+# Create an email message:
+body <- "Hi there,\n\nYou recently completed our survey using Mechanical Turk.\n\nBecause of the server issues we experienced with SurveyMonkey, we are trying an alternative survey service (SurveyGizmo) to see if it works better. We have a very short (30 second) follow-up survey to test SurveyGizmo, for which you will be paid 6 cents. \n\nPlease go to this survey link: https://www.surveygizmo.com/s3/2225628/teameven and enter the survey code at end of the survey into the Mechanical Turk task, which is included as a link on the last page of the survey. Please complete this survey as soon as possible, as it will expire soon.\n\nYou can also find this HIT on Mechanical Turk here: https://www.mturk.com/mturk/preview?groupId=3MDOH17PCJ8SKWUAE7HXNPE1S479AG. However, you MUST enter through the first link provided above and complete the survey to obtain the confirmation code necessary to receive payment.\n\nThank you for participating! If you have any questions, please email me at myr414@gmail.com and I'll be happy to help!\n\nBest,\n\nRachel"
+```
+
+Finally, there's a really easy function to send out your email:
+```{r}
+# Test first!
+ContactWorker(subject,body,testworker)
+
+# Contact the whole list of workers from the CSV
+ContactWorker(subject,body,workers)
+
+# Contact just a couple people:
+ContactWorker(subject, body, c("A123","B123"))
+```
+
+# Bonus Workers
+
+Sometimes this comes up if someone is incorrectly rejected (which can't be reversed), or if someone goes the extra mile and helps you above and beyond the survey (for instance, by pointing out a bug in your survey, or finding a solution to why your survey doesn't display in certain browsers. 
+
+This is quite simple - just need workers, assignment, amount to bonus, and an optional reason. You can feed in vectors for all these, or just single values. 
+For instance:
+```{r}
+# GrantBonus(workers,HIT,amounts,reasons) - amount is in USD - so this example is $0.50
+GrantBonus("A123","DEF123456789","0.50","Sorry about the problem with the HIT!")
+```
+

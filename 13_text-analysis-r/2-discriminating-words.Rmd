@@ -1,0 +1,179 @@
+---
+title: "Discriminating Words"
+author: "Rochelle Terman"
+date: "November 2016"
+output: html_document
+---
+
+This is an **annotated version** of the following (full) lesson: https://github.com/rochelleterman/text-analysis-dhbsi/blob/master/2-discriminating-words.Rmd
+
+### Required Packages
+
+```{r}
+setwd("~/Dropbox/berkeley/Git-Repos/PS239T/12_text-analysis")
+rm(list=ls())
+library(tm)
+library(RTextTools) # a machine learning package for text classification written in R
+library(SnowballC) # for stemming
+library(matrixStats) # for statistics
+```
+
+
+## 0. Prepare
+```{r}
+docs <- Corpus(DirSource("Data/British_Fiction"))
+docs
+dtm <- DocumentTermMatrix(docs,
+           control = list(stopwords = T,
+                          tolower = TRUE,
+                          removeNumbers = TRUE,
+                          removePunctuation = TRUE,
+                          stemming=TRUE))
+dim(dtm)
+inspect(dtm[,100:104])
+```
+
+## 1. Measuring "distinctiveness"
+
+Oftentimes scholars will want to compare different corpora by finding the words (or features) distinctive to each corpora. But finding distinctive words requires a decision about what “distinctive” means. As we will see, there are a variety of definitions that we might use. 
+
+### 1.1 Unique usage
+
+The most obvious definition of distinctive is "exclusive". That is, distinctive words are those are found exclusively in texts associated with a single author (or group). For example, if Brontë uses the word “access” and Austen never does, we should count “access” as distinctive. 
+
+Finding words that are exclusive to a group is a simple exercise. All we have to do is sum the usage of each word use across all texts for each author, and then look for cases where the sum is zero for one author.
+
+```{r}
+# turn DTM into dataframe
+dtm.m <- as.data.frame(as.matrix(dtm))
+dtm.m[,1:5]
+
+# Subset into 2 dtms for each author
+austen <- dtm.m[1:3,]
+bronte <- dtm.m[4:6,]
+
+# Sum word usage counts across all texts
+austen <- colSums(austen)
+bronte <- colSums(bronte)
+
+# Put those sums back into a dataframe
+df <- data.frame(rbind(austen,bronte))
+df[,1:5]
+
+# Get words where one author's usage is 0
+solelyAusten <- unlist(df[1,bronte==0])
+solelyAusten <- solelyAusten[order(solelyAusten, decreasing = T)]
+solelyAusten[1:10]
+
+solelyBronte <- unlist(df[2,austen==0])
+solelyBronte <- solelyBronte[order(solelyBronte, decreasing = T)]
+solelyBronte[1:10]
+```
+
+As we can see, these words tend not to be terribly interesting or informative. So we will remove them from our corpus in order to focus on identifying distinctive words that appear in texts associated with every author.
+
+```{r}
+# subset df with non-zero entries
+df <- df[,bronte>0 & austen>0]
+# how many words are we left with?
+ncol(df)
+df[,1:5]
+```
+
+### 1.2 Differences in averages
+
+Another basic approach to identifying distinctive words is to compare the average rate at which authors use a word. If one author uses a word often across his or her oeuvre and another barely uses the word at all, the difference in their respective rates (or proportions) will be large. We can calculate this quantity the following way:
+
+1. Normalize the DTM from counts to proportions
+2. Take the difference between one author's proportion of a word and another's proportion of the same word.
+3. Find the words with the highest absolute difference.
+
+```{r}
+# normalize into proportions
+rowTotals <- rowSums(df) #create column with row totals, total number of words per document
+head(rowTotals)
+df <- df/rowTotals #change frequencies to proportions
+df[,1:5] # how we have proportions.
+
+# get difference in proportions
+means.austen <- df[1,]
+means.bronte <- df[2,]
+score <- unlist(means.austen - means.bronte)
+
+# find words with highest difference
+score <- sort(score)
+head(score,10) # top session words
+tail(score,10) # top austen words
+```
+
+This is a start. The problem with this measure is that it tends to highlight differences in very frequent words. For example, this method gives greater attention to a word that occurs 30 times per 1,000 words in Austen and 25 times per 1,000 in Brontë than it does to a word that occurs 5 times per 1,000 words in Austen and 0.1 times per 1,000 words in Brontë. This does not seem right. It seems important to recognize cases when one author uses a word frequently and another author barely uses it.
+
+One adjustment that is easy to make is to divide the difference in authors’ average rates by the average rate across all authors. Since dividing a quantity by a large number will make that quantity smaller, our new distinctiveness score will tend to be lower for words that occur frequently. While this is merely a heuristic, it does move us in the right direction.
+
+```{r]}
+
+means.all <- colMeans(df)
+
+score <- unlist((means.austen - means.bronte) / means.all)
+score <- sort(score)
+head(score,10) # top session words
+tail(score,10) # top austen words
+```
+
+### 1.3 Standardized Mean Difference
+
+A more nuanced comparison of word use in two groups takes account of the variability in word use. Consider for instance the word “green” in Austen and Brontë. In Austen the word occurs with the following rates: 0.01, 0.03, and 0.06 (0.03 on average). In Brontë the word is consistently more frequent: 0.16, 0.36, and 0.22 (0.24 on average). These two groups of rates look different. But consider how our judgment might change if the rates observed in Brontë’s novels were much more variable, say, 0.03, 0.04, and 0.66 (0.24 on average). Although the averages remain the same, the difference does not seem so pronounced; with only one observation (0.66) noticeably greater than we find in Austen, we might reasonably doubt that there is evidence of a systematic difference between the authors.
+
+The following metric takes variation into account.
+
+```{r}
+# start again with turning original rate dtm into dataframe
+dtm.m <- as.data.frame(as.matrix(dtm))
+dtm.m[,1:5]
+
+# Subset into 2 dtms
+austen <- dtm.m[1:3,]
+bronte <- dtm.m[4:6,]
+
+# calculate means and vars
+means.austen <- colMeans(austen)
+var.austen <- colVars(as.matrix(austen))
+means.bronte <- colMeans(bronte)
+var.bronte <- colVars(as.matrix(bronte))
+  
+#calculate overall score
+num <- (means.austen - means.bronte) 
+denom <- sqrt((var.austen/3) + (var.bronte/3))
+score <- num / denom
+
+# remove -inf and -inf
+score <- score[-which(score=="-Inf")]
+score <- score[-which(score=="Inf")]
+
+# sort and view
+score <- sort(score)
+head(score,10) # top bronte words
+tail(score,10) # top austen words
+```
+
+### 1.4 Standard Log Odds
+
+Yet another metric is "standard log odds", used in Monroe, Colaresi, and Quinn (2009).
+
+```{r}
+# calculate means and vars
+n.austen <- sum(colSums(austen))
+n.bronte <- sum(colSums(bronte))
+
+pi.austen <- (colSums(austen) + 1) / (n.austen+ ncol(austen)-1)
+pi.bronte <- (colSums(bronte) + 1) / (n.bronte + ncol(bronte)-1)  
+
+log.odds.ratio <- log(pi.austen/(1-pi.austen)) - log(pi.bronte / (1-pi.bronte))
+st.log.odds <- log.odds.ratio/sqrt(var(log.odds.ratio))
+
+st.log.odds <- sort(st.log.odds)
+head(st.log.odds,10) # top bronte words
+tail(st.log.odds,10) # top austen words
+```
+
+### Execuse: Find discriminating words on your own corpus or one of the toy corpora in the repository.

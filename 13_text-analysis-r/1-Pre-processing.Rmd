@@ -1,0 +1,190 @@
+---
+title: "Pre-processing"
+author: "Rochelle Terman"
+date: "November 2016"
+output: html_document
+---
+
+This is an **annotated version** of the following (full) lesson: https://github.com/rochelleterman/text-analysis-dhbsi/blob/master/1-Pre-processing.Rmd
+
+### Required Pakcages
+
+First let's load our required packages.
+
+```{r}
+setwd("~/Dropbox/berkeley/Git-Repos/PS239T/12_text-analysis")
+rm(list=ls())
+require(tm) # Framework for text mining
+require(ggplot2) # for plotting word frequencies
+require(dplyr)
+require(RTextTools) # a machine learning package for text classification written in R
+require(qdap) # Quantiative discourse analysis of transcripts
+require(qdapDictionaries)
+require(SnowballC) # for stemming
+```
+
+## 1. Prepare a Corpus
+
+A corpus is a collection of texts, usually stored electronically, and from which we perform our analysis. A corpus might be a collection of news articles from Reuters or the published works of Shakespeare. 
+
+Within each corpus we will have separate articles, stories, volumes, each treated as a separate entity or record. Each unit is called a "document."
+
+Documents come in a variety of formats, but plain text (e.g. UTF-8) is best.
+
+For this unit, we will be using a section of Machiavelli's Prince as our corpus. Since The Prince is a monograph, we have already "chunked" the text, so that each short paragraph or "chunk" is considered a "document."
+
+### 1.1 Corpus Sources and Readers
+
+The `tm` package supports a variety of sources and formats. 
+
+```{r}
+getSources()
+getReaders()
+```
+
+Here we'll be going over two main options to input a corpus. 
+
+Option 1) We can read a corpus from a directory that contains text files, each document a different file.
+```{r}
+docs <- Corpus(DirSource("Data/MachText")) 
+docs
+```
+
+Option 2) We can read from a csv of documents, with each row being a document, and columns for text and metadata (information about each document). This is the easiest option if you have metadata.
+
+```{r}
+docs.df <-read.csv("Data/mach.csv", header=TRUE) #read in CSV file
+docs <- Corpus(VectorSource(docs.df$text))
+docs
+```
+
+Once we have the corpus, we can inspect the documents using inspect()
+
+```{r}
+# see the 16th document
+inspect(docs[16])
+```
+
+And see the text using the `as.chracter`
+
+```{r}
+ # see content for 16th document
+as.character(docs[[16]])
+```
+
+### 1.2 Preprocessing
+
+Many text analysis applications follow a similar 'recipe' for preprecessing, involving:
+
+1. Tokenizing the text to unigrams (or bigrams, or trigrams)
+2. Converting all characters to lowercase
+3. Removing punctuation
+4. Removing numbers
+5. Removing Stop Words, inclugind custom stop words
+6. "Stemming" words, or lemmitization. There are several stemming alogrithms. Porter is the most popular.
+7. Creating a Document-Term Matrix (DTM)
+
+A document term matrix is simply a matrix with documents as the rows and terms as the columns and a count of the frequency of words as the cells of the matrix.
+
+There are other, less common, preprocessing steps, which we won't be covering in this annotated unit:
+
+8. Weighting features
+9. Removing Sparse Terms
+
+`tm` also lets us convert a corpus to a DTM while completing the pre-processing steps in one step.
+
+```{r}
+dtm <- DocumentTermMatrix(docs,
+           control = list(tolower = TRUE,
+                          removePunctuation = TRUE,
+                          removeNumbers = TRUE,
+                          stopwords = TRUE,
+                          stemming=TRUE))
+```
+
+### 1.3 Exploring the DTM
+
+Let's look at the structure of our DTM.
+
+```{r}
+# how many documents? how many terms?
+dim(dtm)
+# take a quick look
+inspect(dtm[1:5,800:810])
+```
+
+We can obtain the term frequencies as a vector by converting the document term matrix into a matrix and summing the column counts:
+
+```{r}
+ # how many terms?
+freq <- colSums(as.matrix(dtm))
+length(freq)
+```
+
+By ordering the frequencies we can list the most frequent terms and the least frequent terms:
+
+```{r}
+# order
+ord <- order(freq)
+
+# Least frequent terms
+freq[head(ord)]
+
+# most frequent
+freq[tail(ord)]
+
+# frequency of frenquencies
+head(table(freq),15)
+tail(table(freq),15)
+
+# plot
+plot(table(freq))
+```
+
+Exploring word frequences
+
+```{r}
+# Have a look at common words
+findFreqTerms(dtm, lowfreq=100) # words that appear at least 100 times
+
+# Which words correlate with "war"?
+findAssocs(dtm, "war", 0.3)
+
+# plot the most frequent words
+freq <- sort(colSums(as.matrix(dtm)),decreasing=TRUE)
+head(freq)
+
+wf <- data.frame(word=names(freq), freq=freq)
+head(wf)
+
+subset(wf, freq>50) %>%
+    ggplot(aes(word, freq)) +
+        geom_bar (stat ="identity") +
+        theme(axis.text.x=element_text(angle=45,hjust=1))
+
+# wordcoulds!
+library(wordcloud)
+set.seed(123)
+wordcloud(names(freq), freq, max.words=100, colors=brewer.pal(6,"Dark2"))
+```
+
+### 1.5 Exporting the DTM
+
+We can convert a DTM to a matrix or data.frame in order to write to a csv, add meta data, etc.
+
+```{r}
+# coerce into dataframe
+dtm <- as.data.frame(as.matrix(dtm))
+names(docs)  # names of documents
+
+# add fake column for section
+dtm$doc_section <- "NA"
+dtm$doc_section[1:100] <- "Section 1"
+dtm$doc_section[101:188] <- "Section 2"
+dtm$doc_section <- as.factor(dtm$doc_section)
+
+# check to see if they're the same number of documents per author
+summary(dtm$doc_section)
+````
+
+### Execise: Make a DTM out of your own corpus or one of the toy copora.
