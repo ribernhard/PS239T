@@ -7,6 +7,6 @@ The course is currently divided into four main sections. In the first section, s
 
 Please note that materials are still in development, and will be changing.
 
-Contact
+## Contact
 
 Instructor: Rachel Bernhard: rbernhard@berkeley.edu
