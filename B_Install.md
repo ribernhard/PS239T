@@ -15,7 +15,7 @@ After the installer does its thing, it leaves the window open, so that you can p
 
 Chances are that you want to have an easy way to restart that Git Bash. You can install shortcuts in the start menu, on the desktop or in the QuickStart bar by calling the script /share/msysGit/add-shortcut.tcl (call it without parameters to see a short help text).
 
-If you receive an error message, take a look at https://stackoverflow.com/questions/32893412/command-line-tools-not-working-os-x-el-capitan-macos-sierra-macos-high-sierra/32894314#32894314.
+If you receive an "xcrun" error message, take a look at https://stackoverflow.com/questions/32893412/command-line-tools-not-working-os-x-el-capitan-macos-sierra-macos-high-sierra/32894314#32894314.
 
 #### Mac OS X
 
