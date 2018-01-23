@@ -51,3 +51,51 @@ On the other hand, the shell allows us to combine existing tools in powerful way
 In addition, the command line is often the easiest way to interact with remote machines. As clusters and cloud computing become more popular for scientific data crunching, being able to drive them is becoming a necessary skill.
 
 
+### 6. Our First Command
+
+The part of the operating system responsible for managing files and directories is called the **file system**. It organizes our data into files, which hold information, and directories (also called "folders"), which hold files or other directories.
+
+Several commands are frequently used to create, inspect, rename, and delete files and directories. To start exploring them, let's open a shell window:
+
+```shell
+$
+```
+
+The dollar sign is a **prompt**, which shows us that the shell is waiting for input; your shell may show something more elaborate.
+
+Type the command `whoami`, then press the Enter key (sometimes marked Return) to send the command to the shell.
+
+The command's output is the ID of the current user, i.e., it shows us who the shell thinks we are:
+
+```shell
+$ whoami
+
+oski
+```
+
+More specifically, when we type `whoami` the shell:
+
+1.  finds a program called `whoami`,
+2.  runs that program,
+3.  displays that program's output, then
+4.  displays a new prompt to tell us that it's ready for more commands.
+
+### 7. Communicating to Other Systems
+
+In the next unit, we'll be focusing on the structure of our own operating systems. But our operating systems rarely work in isolation; often, we are relying on the Internet to communicate with others! You can visualize this sort of communication within your own shell by asking your computer to `ping` (based on the old term for submarine sonar) an IP address provided by Google (8.8.8.8); in effect, this will test whether your Internet (thanks Airbears2) is working. 
+
+```shell
+$ ping 8.8.8.8
+```
+
+Note: Windows users may have to try a slightly different alternative:
+
+```shell
+$ ping -t 8.8.8.8
+```
+
+Your computer will begin continuously pinging this IP address and reporting back the "latency," or how long it took for the ping data packet to go to that IP address and back. If your Internet isn't working, it will instead report an error saying "No route to host." 
+
+Ping runs continuously, so when we want it to stop, we have to manually tell the kernel to stop executing the ping command. We do this simply by typing ctrl+c. 
+
+(Thanks Paul Thissen for the suggestion!)
