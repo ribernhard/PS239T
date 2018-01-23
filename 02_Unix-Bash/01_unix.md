@@ -1,3 +1,5 @@
+![Learning is tough.](https://www.youtube.com/watch?v=ycjhqN4LTq4)
+
 # The Unix Shell: 1. Operating Systems and Unix
 
 > ### Learning objectives
