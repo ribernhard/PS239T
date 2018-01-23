@@ -270,7 +270,7 @@ ls: cannot access quotes.txt: No such file or directory thesis/quotations.txt
 
 
 
-> ## Wildcards {.callout}
+> ## Wildcards
 > 
 > `*` is a **wildcard**. It matches zero or more
 > characters, so `*.pdb` matches `ethane.pdb`, `propane.pdb`, and so on.
@@ -299,6 +299,8 @@ ls: cannot access quotes.txt: No such file or directory thesis/quotations.txt
 > file names matching these expressions, but not the wildcards
 > themselves. It is the shell, not the other programs, that deals with
 > expanding wildcards, and this another example of orthogonal design.
+> {: .source}
+{: .callout}
 
 
 ## Exercises
