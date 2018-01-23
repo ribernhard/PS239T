@@ -1,4 +1,4 @@
-[![Learning is tough.](https://imgur.com/a/ajdEG](https://youtu.be/ycjhqN4LTq4?t=35s)
+[![Learning is tough.](https://imgur.com/a/ajdEG)](https://youtu.be/ycjhqN4LTq4?t=35s)
 
 # The Unix Shell: 1. Operating Systems and Unix
 
