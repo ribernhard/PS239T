@@ -13,7 +13,7 @@ The course is currently divided into four main sections. In the first section, s
 * Write and execute basic code for text analysis in Python
 * Be familiar with the concepts and tools of a variety of computational social science / digital humanities applications
 * Be familiar with the basic guidelines around reproducible research, good scientific computing practices, and ethics/privacy/legal quandaries
-* Learn independently and train themselves in a variety of computational applications and tasks through online documentation
+* Learn independently and train themselves in a variety of computational applications and tasks through online documentation (we will have access to Datacamp's courses for the duration of the semester)
 
 ## Logistics
 
@@ -115,7 +115,7 @@ See [B_Install.md](B_Install.md) for more information.
 
 ### Books and Other Resources
 
-There are no official textbooks for this class. Readings will be light, and posted as part of the weekly homework assignments on bCourses. 
+There are no official textbooks for this class. Readings will be light, and posted as part of the weekly homework assignments on bCourses. For the semester, we will have access to all of Datacamp's premium course materials (thank you Datacamp!). 
 
 ## Curriculum Outline / Schedule
 
