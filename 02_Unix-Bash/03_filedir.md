@@ -44,7 +44,7 @@ Next, let's find out where we are by running a command called `pwd` (which stand
 
 At any moment, our **current working directory** is our current default directory, i.e., the directory that the computer assumes we want to run commands in  unless we explicitly specify something else.
 
-Here, the computer's response is `/home/oski` (on Rachel's system, `/Users/Rachel1`), which is the **home directory**:
+Here, the computer's response is `/home/oski` (on Rachel's system, `/Users/rachel`), which is the **home directory**:
 
 ```shell
 $ pwd
@@ -103,12 +103,11 @@ Let's see what's in Rachel's home directory by running `ls`, which stands for "l
 ```shell
 $ ls
 
-ABBYY			              Dropbox		  	      Public
-Applications	          Google Drive	      Sites
-Creative Cloud Files	  Library			        To-Dos.txt
-Desktop			            Movies			        Untitled.ipynb
-Documents		            Music			          anaconda
-Downloads		            Pictures		        ps239t-final-project
+Applications		Dropbox			Pictures
+Creative Cloud Files	Google Drive		Public
+Desktop			Library			Untitled.ipynb
+Documents		Movies			anaconda
+Downloads		Music			file.txt
 ```
 
 `ls` prints the names of the files and directories in the current directory in alphabetical order, arranged neatly into columns.
@@ -118,16 +117,15 @@ We can make its output more comprehensible by using the **flag** `-F`, which tel
 ```shell
 $ ls -F
 
-ABBYY/			          Dropbox/		      Public/
-Applications/		      Google Drive/		  Sites/
-Creative Cloud Files/	Library/          To-Dos.txt
-Desktop/		          Movies/			      Untitled.ipynb
-Documents/		        Music/			      anaconda/
-Downloads/		        Pictures/		      ps239t-final-project/
+Applications		Dropbox			Pictures
+Creative Cloud Files	Google Drive		Public
+Desktop			Library			Untitled.ipynb
+Documents		Movies			anaconda
+Downloads		Music			file.txt
 ```
 
 Here,
-we can see that Rachel's version of `/home/oski` contains 18 **sub-directories**.
+we can see that Rachel's version of `/home/oski` contains 15 **sub-directories**.
 The names that don't have trailing slashes, like `file.txt` are plain old files.
 
 And note that there is a space between `ls` and `-F`: without it, the shell thinks we're trying to run a command called `ls-F`, which doesn't exist.
@@ -152,24 +150,24 @@ And note that there is a space between `ls` and `-F`: without it, the shell thin
 > cause the operating system to try to open it with a music player
 > when someone double-clicks it.
 
-Now let's take a look at what's in Rachel's `Desktop` directory by running `ls -F data`, i.e., the command `ls` with the **arguments** `-F` and `data`. The second argument --- the one *without* a leading dash --- tells `ls` that
-we want a listing of something other than our current working directory:
+Now let's take a look at what's in Rachel's `Desktop` directory by running `ls -F data`, i.e., the command `ls` with the **arguments** `-F` and `PS239T`. The second argument --- the one *without* a leading dash --- tells `ls` that
+we want a listing of the files in something other than our current working directory:
 
 ```shell
-$ ls -F data
+$ ls -F PS239T
 
-2016-2017 Office Assignment/		    PS239T/
-Annotated Articles and Notes alias	Presidential Candidate Photos/
-Articles to Revisit/			          Rachel and Shauna's Paper/
-Data to Play With/			            Shauna's Dissertation/
-Delayed Baggage Claim/			        To Comment/
-EMERGE - Archived Files/		        Website Stuff/
-IGS Amendment Questions.pdf		      data-wrangling-cheatsheet.pdf
-Macronutrients.xlsx			            shoes.jpg
-NASA Prints/
+01_Introduction/			10_python-basics/
+02_Unix-Bash/				11_FINAL PROJECTS/
+03_r-basics/				12_text-analysis-python/
+04_r-data-analysis/			13_text-analysis-r/
+05_r-visualization/			14_machine-learning/
+06_APIs/				15_machine-learning-applications/
+07_html-css-javascript/			A_Syllabus.md
+08_webscraping/				B_Install.md
+09_qualtrics-mturk/			README.md
 ```
 
-The output shows us that there are four files, one shortcut (called an alias on a Mac), and twelve sub-sub-directories. Organizing things hierarchically in this way helps us keep track of our work: it's possible to put hundreds of files in our home directory, just as it's possible to pile hundreds of printed papers on our desk, but it's a self-defeating strategy.
+The output shows us that there are three files and fifteen sub-sub-directories. Organizing things hierarchically in this way helps us keep track of our work: it's possible to put hundreds of files in our home directory, just as it's possible to pile hundreds of printed papers on our desk, but it's a self-defeating strategy.
 
 Notice, by the way that we spelled the directory name `Desktop`. It doesn't have a trailing slash: that's added to directory names by `ls` when we use the `-F` flag to help us tell things apart. And it doesn't begin with a slash because it's a **relative path**, i.e., it tells `ls` how to find something from where we are, rather than from the root of the file system.
 
@@ -196,16 +194,15 @@ What if we want to change our current working directory? Before we do this, `pwd
 ```shell
 $ pwd
 
-/home/oski (/Users/Rachel1)
+/home/oski (/Users/rachel)
 
 $ ls
 
-ABBYY			              Dropbox		  	      Public
-Applications	          Google Drive	      Sites
-Creative Cloud Files	  Library			        To-Dos.txt
-Desktop			            Movies			        Untitled.ipynb
-Documents		            Music			          anaconda
-Downloads		            Pictures		        ps239t-final-project
+Applications		Dropbox			Pictures
+Creative Cloud Files	Google Drive		Public
+Desktop			Library			Untitled.ipynb
+Documents		Movies			anaconda
+Downloads		Music			file.txt
 ```
 
 ### 4. Moving Around
@@ -225,9 +222,6 @@ $ pwd
 
 /home/oski/Desktop
 
-$ ls -F
-
-Launcher.app@      PS239T/     picture.png
 ```
 
 We now know how to go down the directory tree: how do we go up? We could use an absolute path:
@@ -260,8 +254,8 @@ The special directory `..` doesn't usually show up when we run `ls`. If we want 
 ```shell
 $ ls -a
 
-.		.localized	  Rachel1
-..		Guest		    Shared
+.		.localized	Shared
+..		Guest		rachel
 ```
 
 `-a` stands for "show all"; it forces `ls` to show us file and directory names that begin with `.`, such as `..`.
@@ -320,31 +314,11 @@ This is called **tab completion**, and we will see it in many other tools as we 
 #### Challenge 1
 
 1. Change your working directory to the place where you want to clone the `PS239T` materials. 
-2. type `git clone https://github.com/rochelleterman/PS239T.git` 
+2. type `git clone https://github.com/ribernhard/PS239T.git` 
 3. `cd` into the `PS239T/02_Unix-Bash` sub-directory.
 2. list the files in the directory
 
 #### Challenge 2
-
-If `pwd` displays `/home/oski`, and `-r` tells `ls` to display things in reverse order, what command will display:
-```
-shoes.jpg				                Macronutrients.xlsx
-data-wrangling-cheatsheet.pdf		IGS Amendment Questions.pdf
-Website Stuff/				          EMERGE - Archived Files/
-To Comment/			              	Delayed Baggage Claim/
-Shauna's Dissertation/		    	Data to Play With/
-Rachel and Shauna's Paper/	  	Articles to Revisit/
-Presidential Candidate Photos/	Annotated Articles and Notes alias
-PS239T/					                2016-2017 Office Assignment/
-NASA Prints/
-```
-
-1.  `ls pwd`
-2.  `ls -r -F`
-3.  `ls -rF `
-4.  Either \#2 or \#3 above, but not \#1.
-
-#### Challenge 3
 
 What does the command `cd` without a directory name do?
 
@@ -353,7 +327,7 @@ What does the command `cd` without a directory name do?
 3.  It changes the working directory to the user's home directory.
 4.  It produces an error message.
 
-#### Challenge 4
+#### Challenge 3
 
 What does the command `ls` do when used with the -s arguments?
 
