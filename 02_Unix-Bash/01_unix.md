@@ -17,7 +17,7 @@ An operating system is a suite of programs which make the computer work. It is a
 
 UNIX is an operating system which was first developed in the 1960s, and has been under constant development ever since. 
 
-![Unix history](http://fc06.deviantart.net/fs70/i/2011/224/1/6/unix_history_by_legosz-d46a501.png)
+![Unix history](https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Unix_history-simple.svg/1200px-Unix_history-simple.svg.png)
 
 ### Unix v. Windows
 
