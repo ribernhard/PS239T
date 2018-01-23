@@ -1,5 +1,5 @@
 
-[![blackadder](https://imgur.com/a/29si2)](https://youtu.be/ycjhqN4LTq4?t=36s)
+[![learning is tough](https://i.imgur.com/KlbogCv.png)](https://youtu.be/ycjhqN4LTq4?t=36s)
 
 # The Unix Shell: 1. Operating Systems and Unix
 
