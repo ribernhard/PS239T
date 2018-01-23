@@ -9,36 +9,8 @@
 > *   Identify the actual command, flags, and filenames in a command-line call.
 > *   Demonstrate the use of tab completion, and explain its advantages.
 
-### 1. Our First Command
 
-The part of the operating system responsible for managing files and directories is called the **file system**. It organizes our data into files, which hold information, and directories (also called "folders"), which hold files or other directories.
-
-Several commands are frequently used to create, inspect, rename, and delete files and directories. To start exploring them, let's open a shell window:
-
-```shell
-$
-```
-
-The dollar sign is a **prompt**, which shows us that the shell is waiting for input; your shell may show something more elaborate.
-
-Type the command `whoami`, then press the Enter key (sometimes marked Return) to send the command to the shell.
-
-The command's output is the ID of the current user, i.e., it shows us who the shell thinks we are:
-
-```shell
-$ whoami
-
-oski
-```
-
-More specifically, when we type `whoami` the shell:
-
-1.  finds a program called `whoami`,
-2.  runs that program,
-3.  displays that program's output, then
-4.  displays a new prompt to tell us that it's ready for more commands.
-
-### 2. Home Directories
+### 1. Home Directories
 
 Next, let's find out where we are by running a command called `pwd` (which stands for "print working directory").
 
@@ -96,7 +68,7 @@ We know that our current working directory `/home/oski` is stored inside `/home`
 > it refers to the root directory. When it appears *inside* a name,
 > it's just a separator.
 
-### 3. Listing
+### 2. Listing
 
 Let's see what's in Rachel's home directory by running `ls`, which stands for "listing":
 
@@ -205,7 +177,7 @@ Documents		Movies			anaconda
 Downloads		Music			file.txt
 ```
 
-### 4. Moving Around
+### 3. Moving Around
 
 We can use `cd` followed by a directory name to change our working directory. `cd` stands for "change directory", which is a bit misleading: the command doesn't change the directory, it changes the shell's idea of what directory we are in.
 
@@ -280,7 +252,7 @@ As you can see, it also displays another special directory that's just called `.
 > the first character in the path: `here/there/~/elsewhere` is not 
 > `/home/oski/elsewhere`.
 
-### 5. Tab Completion
+### 4. Tab Completion
 If she is in her home directory, Rachel can see what files she has on her `Desktop` using the command:
 
 ```shell
