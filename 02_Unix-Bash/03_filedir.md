@@ -1,3 +1,5 @@
+[![files](https://i.imgur.com/og9VW4W.png)](https://www.youtube.com/watch?v=L_o_O7v1ews)
+
 # The Unix Shell: 3. Files and Directories
 
 > ### Learning Objectives
