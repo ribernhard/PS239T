@@ -35,7 +35,7 @@ Unix has several fundamental differences compared with Windows:
 
 OSX *is* Unix: A version called Darwin, based on [BSD](https://en.wikipedia.org/wiki/Berkeley_Software_Distribution). It comes packaged with all the necessary tools:
 * The full suite of command-line tools in the **Terminal**
-* An X11() server for graphics
+* An X11() server for graphics (in the XQuartz package)
 * Secure shell and secure copy for working over networks 
 * The C and FORTRAN compilers (in the Xcode toolset)
 
