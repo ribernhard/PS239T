@@ -1,7 +1,7 @@
 ---
 title: "Subsetting"
 author: "PS239T"
-date: "Fall 2016"
+date: "Spring 2018"
 output: html_document
 ---
 
@@ -19,12 +19,13 @@ This unit helps you master subsetting by starting with the simplest type of subs
 
 ### Outline
 
-1. [Data types](#1-data-types) starts by teaching you about `[`. You'll start by learning the four ways to subset atomic vectors. You'll then learn how those four methods act when used to subset lists, matrices, and data frames.
-2. [Subsetting operators](#2-subsetting-operators) expands your knowledge of subsetting operators to include `[[` and `$`, focussing on the important principles of simplifying vs. preserving.
-3. In [Subsetting and assignment](#3-subassignment) you'll learn the art of subassignment, combining subsetting and assignment to modify parts  of an object.
-4. [Applications](#4-applications) leads you through important, but not obvious, applications of subsetting to solve problems that you often encounter in a data analysis, using the tools above.
+1. [Data types](#data-types) starts by teaching you about `[`. You'll start by learning the four ways to subset atomic vectors. You'll then learn how those four methods act when used to subset lists, matrices, and data frames.
+2. [Subsetting operators](#subsetting-operators) expands your knowledge of subsetting operators to include `[[` and `$`, focussing on the important principles of simplifying vs. preserving.
+3. In [Subsetting and assignment](#subassignment) you'll learn the art of subassignment, combining subsetting and assignment to modify parts  of an object.
+4. [Applications](#applications) leads you through important, but not obvious, applications of subsetting to solve problems that you often encounter in a data analysis, using the tools above.
+5. [Bonus Items](#bonus-items) show you some additional details of how to work with your data and make your code more efficient, including by distinguishing when you want to simplify vs. preserve your data. 
 
-# 1. Data types {#1-data-types}
+# 1. Data types {#data-types}
 
 It's easiest to learn how subsetting works for atomic vectors, and then how it generalises to higher dimensions and other more complicated objects. We'll start with `[`, the most commonly used operator. [Subsetting operators](#subsetting-operators) will cover `[[` and `$`, the two other main subsetting operators.
 
@@ -38,7 +39,7 @@ x <- c(2.1, 4.2, 3.3, 5.4)
 
 Note that the number after the decimal point gives the original position in the vector.
 
-**NB:** In R, positions start at 1, unlike Python. Fun!**
+**NB:** In R, positions start at 1, unlike Python, which starts at 0. Fun!**
 
 There are five things that you can use to subset a vector: 
 
@@ -115,7 +116,7 @@ x[x < 3 | x > 5]
 x[!x > 5]
 ```
 
-Another way to generate implicit conditional statements is using the `%in%` operator, which works like the `in` keywords in Python
+Another way to generate implicit conditional statements is using the `%in%` operator, which works like the `in` keywords in Python.
 
 ```{r}
 # generate implicit logical vectors through the %in% operator
@@ -201,7 +202,7 @@ a[c(1,2) , -2]
 
 ### 1d. Data frames
 
-Data from data frames can be addressed like matrices, using two vectors separated by a columns.
+Data from data frames can be addressed like matrices (with row and column indicators separated by a comma).
 
 ```{r}
 df <- data.frame(x = 4:6, y = 3:1, z = letters[1:3])
@@ -263,7 +264,7 @@ mtcars[mtcars$cyl == 4 | mtcars$cyl == 6, ]
 2.  Why does `mtcars[1:20]` return an error? How does it differ from the 
 similar `mtcars[1:20, ]`?
 
-# 2. Subsetting operators {#2-subsetting-operators}
+# 2. Subsetting operators {#subsetting-operators}
 
 There are two other subsetting operators: `[[` and `$`. 
 
@@ -324,12 +325,12 @@ summary(mod)
 
 Extract the R squared from the model summary.
 
-```{r}
+```{r, error = TRUE}
 mod.sum <- summary(mod)
 mod.sum$______ # Fill in here
 ```
 
-# 3. Subassignment {#3-subassignment}
+# 3. Subassignment {#subassignment}
 
 All subsetting operators can be combined with assignment to modify selected values of the input vector.
 
@@ -352,7 +353,7 @@ df$a[df$a < 5] <- 0
 df
 ```
 
-# 4. Applications {#4-applications}
+# 4. Applications {#applications}
 
 The basic principles described above give rise to a wide variety of useful applications. Some of the most important are described below. Many of these basic techniques are wrapped up into more concise functions (e.g., `subset()`, `merge()`, `plyr::arrange()`), but it is useful to understand how they are implemented with basic subsetting. This will allow you to adapt to new situations that are not dealt with by existing functions.
 
@@ -439,7 +440,7 @@ mtcars[mtcars$gear == 5, ]
 mtcars[mtcars$gear == 5 & mtcars$cyl == 4, ]
 ```
 
-# 5. Bonus Items {#5-bonus-items}
+# 5. Bonus Items {#bonus-items}
 
 ### 5a. `subset()`
 

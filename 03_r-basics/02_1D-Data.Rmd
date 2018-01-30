@@ -1,7 +1,7 @@
 ---
 title: "One-Dimensional Data in R"
 author: "PS239T"
-date: "Fall 2016"
+date: "Spring 2018"
 output: html_document
 ---
 
@@ -30,7 +30,7 @@ In this markdown file, we cover the types of one-dimensional objects (vectors) t
 
 `R`'s main atomic classes are:
 
-* character (or a "string" in Python)
+* character (or a "string" in Python and Stata)
 * numeric (integer or float)
 * integer (just integer)
 * logical (booleans)
@@ -42,7 +42,7 @@ In this markdown file, we cover the types of one-dimensional objects (vectors) t
 | 2 (Must add a `L` at end to denote integer) | integer |
 | `TRUE`, `FALSE` | logical |
 
-Like Python, R is a dynamically typed. There are a few differences in terminology, however, that are pertinent. First, "types" in Python are referred to as "classes" in R.  Second, R has some different names for the types string, integer, and float --- specifically **character**, **integer** (not different), and **numeric**. Because there is no "float" class in R, users tend to default to the "numeric" class when they want to work with numerical data.
+Like Python, R is dynamically typed. There are a few differences in terminology, however, that are pertinent. First, "types" in Python are referred to as "classes" in R.  Second, R has some different names for the types string, integer, and float --- specifically **character**, **integer** (not different), and **numeric**. Because there is no "float" class in R, users tend to default to the "numeric" class when they want to work with numerical data.
 
 The function for recovering object classes is ```class()```.
 
@@ -214,7 +214,7 @@ sum(x)
 mean(x)
 ```
 
-Coercion often happens automatically. This is called implicit coercion. Most mathematical functions (`+`, `log`, `abs`, etc.) will coerce to a double or integer, and most logical operations (`&`, `|`, `any`, etc) will coerce to a logical. You will usually get a warning message if the coercion might lose information. 
+Coercion often happens automatically. This is called implicit coercion. Most mathematical functions (`+`, `log`, `abs`, etc.) will coerce to a numeric or integer, and most logical operations (`&`, `|`, `any`, etc) will coerce to a logical. You will usually get a warning message if the coercion might lose information. 
 
 ```{r, eval = TRUE}
 1 < "2"
@@ -351,7 +351,7 @@ names(x) <- c("a", "b", "c")
 x
 ```
 
-Names don't have to be unique. However, character subsetting, described in the next lesson, is the most important reason to use names and it is most useful when the names are unique. When names are unique, a vector behaves kind of like a Python dictionary key.
+Names don't have to be unique. However, character subsetting, described in the next lesson, is the most important reason to use names and it is most useful when the names are unique. (For Python users: when names are unique, a vector behaves kind of like a Python dictionary key.)
 
 Not all elements of a vector need to have a name. If some names are missing, `names()` will return an empty string for those elements. If all names are missing, `names()` will return `NULL`.
 
@@ -367,7 +367,7 @@ You can create a new vector without names using `unname(x)`, or remove names in 
 
 ### 2b. Factors
 
-Factors are special vectors that represent categorical data. Factors can be ordered or unordered and are important when for modelling functions such as `lm()` and `glm()` and also in plot methods.
+Factors are special vectors that represent categorical data. Factors can be ordered or unordered and are important for modelling functions such as `lm()` and `glm()` and also in plot methods.
 
 Factors can only contain pre-defined values. Set allowed values using the `levels()` attribute.
 

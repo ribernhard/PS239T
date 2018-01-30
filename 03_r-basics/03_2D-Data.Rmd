@@ -1,18 +1,20 @@
 ---
 title: "Two-Dimensional Data in R"
 author: "PS239T"
-date: "Fall 2016"
-output: html_document
+date: "Spring 2018"
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 #### Outline
 
 In this markdown file, we build off our new knowledge about one-dimensional data to create and alter new kinds of objects: matrices and dataframes. 
 
-1. [Matrices](#1-matrices) introduces matrices, data structures for storing 2d data that is all the same class.
-2. [Dataframes](#2-dataframes) teaches you about the dataframe, the most important data structure for storing data in R, because it stores different kinds of (2d) data.
+1. [Matrices](#matrices) introduces matrices, data structures for storing 2d data that is all the same class.
+2. [Dataframes](#dataframes) teaches you about the dataframe, the most important data structure for storing data in R, because it stores different kinds of (2d) data.
 
-# 1. Matrices {#1-matrices}
+# 1. Matrices <a name="#matrices"></a>
 
 Matrices are created when we combine multiple vectors that all have the same class (e.g., numeric). This creates a dataset with rows and columns. By definition, if you want to combine multiple classes of vectors, you want a dataframe. You can coerce a matrix to become a dataframe, and vice-versa, but as with all vector coercions, the results can be unpredictable, so be sure you know how each variable (column) will convert.
 
@@ -75,7 +77,7 @@ rownames(mdat)
 colnames(mdat)
 ```
 
-# 2. Dataframes {#2-dataframes}
+# 2. Dataframes <a name="#dataframes"></a>
 
 A data frame is a very important data type in R. It's pretty much the **de facto** data structure for most tabular data and what we use for statistics. 
 
@@ -102,7 +104,7 @@ str(df)
 df
 ```
 
-In reality, the most common way to make a data.frame is through `read.csv` or other data file input.
+In reality, we rarely type up our datasets ourselves, and certainly not in R. The most common way to make a data.frame is by calling a file using `read.csv` (which relies on the `foreign` package), `read.dta` (if you're using a Stata file), or some other kind of data file input.
 
 ### 2b. Structure and Attributes
 
@@ -213,13 +215,13 @@ The conversion rules for `cbind()` are complicated and best avoided by ensuring 
 
 ```{r eval = FALSE}
 
-fruit = c("apples", "orange", "bananas")
+fruit = c("starfruit", "boysenberries", "lychee")
 price = c(.89, .99, 1.00)
 
 basket <- data.frame(_____, ______) # add your vectors here
 class(basket)
 
-data.frame(fruit = c("apples", "orange", "bananas"), price = c(.89, .99, 1.00))
+data.frame(fruit = c("starfruit", "boysenberries", "lychee"), price = c(.89, .99, 1.00))
 
 basket
 
