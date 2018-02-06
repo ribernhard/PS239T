@@ -1,17 +1,17 @@
 ---
-title: "Advanced Programming in R: Lecture Notes"
+title: "More Advanced Programming in R: Lecture Notes"
 author: "PS239T"
-date: "Fall 2016"
-output: html_docdata:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAMElEQVR42mNgIAXY2Nj8x8cHC8AwMl9XVxe3QqwKcJmIVwFWhehW4LQSXQCnm3ABAHD6MDrmRgfrAAAAAElFTkSuQmCCument
+date: "Spring 2018"
+output: html_document
 ---
 
 We've already learned about types in R. Now let's discuss some more advanced programming in R - namely:
 
-1. [String operations](#1-strings)
-2. [Flow control](#2-flow-control)
-3. [Functions](#3-functions)
-4. [Loops](#4-loops)
-5. [Vectorized Functions](#5-vectorization)
+1. [String operations](#strings)
+2. [Flow control](#flow-control)
+3. [Functions](#functions)
+4. [Loops](#loops)
+5. [Vectorized Functions](#vectorization)
 
 ### Setup environment
 
@@ -20,10 +20,10 @@ We've already learned about types in R. Now let's discuss some more advanced pro
 rm(list=ls())
 
 # set working directory
-setwd(dir="~/Dropbox/berkeley/Git-Repos/PS239T/07_r-data-analysis/")
+setwd(dir="~/Dropbox/berkeley/Git-Repos/PS239T/04_r-data-analysis/")
 ```
 
-# 1. Strings
+# 1. Strings {#strings}
 
 ### 1.1 Intro to Operations on Strings
 
@@ -32,7 +32,7 @@ firstName <- "Schnitzel"
 lastName <- "von Krumm"
 ```
 
-Unlike in Python, R does not have a reserved operator for string concatenation such as "+".  Furthermore, using the usual concatenation operator ```c()``` on two or more character strings will not create a single character string, but rather a **vector** of character strings. 
+Unlike in Python, R does not have a reserved operator for string concatenation such as `+`.  Furthermore, using the usual concatenation operator ```c()``` on two or more character strings will not create a single character string, but rather a **vector** of character strings. 
 
 ```{r}
 fullName <- c(firstName, lastName)
@@ -76,7 +76,7 @@ substr(x = fullName, start = 11, stop = nchar(fullName))
 
 ### 1.2 Character String Methods
 
-Like Python, R has a number of string methods, though these exist as separate functions. For example:
+Like Python, R has a number of string methods, though these exist as individual rather than "mix-and-match" functions. For example:
 
 ```{r}
 toupper(x = fullName)
@@ -89,7 +89,7 @@ gsub(pattern = "von krumm", replacement = "Duderino", x = fullName) # Note the i
 gsub(pattern = " ", replacement = "", x = fullName) # The same function is used for replacements and stripping
 ```
 
-# 2. Flow Control
+# 2. Flow Control {#flow-control}
 
 Almost all the conditional operators used in Python also work in R.  The basic loop set up is also very similar, with some small syntax adjustments.  Note that ```if()``` is a function whose arguments must be specified inside parentheses.  ```else```, however, is a reserved operator that takes no arguments.  Note that there is no ```elif``` option --- one simply writes ```else if()```.  Whereas operations to be executed after conditional evaluations in Python come after a ```:```, R operations must only be enclosed in curly brackets: ```{}```.  Furthermore, there is no requirement for indentation.  The only thing to keep in mind is that **each new operation must be on a separate line**.
 
@@ -138,7 +138,7 @@ FALSE==0
 FALSE<=1
 ```
 
-# 3. Functions
+# 3. Functions {#functions}
 
 While functions are defined in Python using the ```def``` reserved operator, R sees functions as just another type of named object.  Thus, they require explicit assignment to an object.  This is done using the function ```function()```, which creates a function taking the arguments specified in parentheses.  
 
@@ -153,8 +153,6 @@ less.simple.function<-function(x,y){
 }
 less.simple.function(x = 2, y = 10)
 ```
-
-Missing Python already, aren't we? :P
 
 With respect to returning function output, most of the same rules apply as with Python. Be sure to remember that ```return()``` will only process a single object, so multiple items must usually be returned as a list. Note that your ordering of the functions matters, too. 
 
@@ -204,9 +202,9 @@ send("Hello", "Rachel", "Laura", "World")
 send(message = "Hello", cc = "Rachel", bcc = c("Laura", "Rochelle"), recipient = "World")
 ```
 
-# 4. Loops
+# 4. Loops {#loops}
 
-Loops in R work basically the same way as in Python, with just a few adjustments.  First, recall that index positions in R start at 1.  Second, ```while()``` and ```for()``` are functions rather than reserved operators, meaning  they must take arguments in parentheses.  Third, just like ```else```, the ```in``` operator *is* reserved and takes no arguments in parentheses.  Fourth, the conditional execution must appear between curly brackets.  Finally, indentation is meaningless, but each new operation must appear on a new line.
+Loops in R also work basically the same way as in Python, with just a few adjustments.  First, recall that index positions in R start at 1.  Second, ```while()``` and ```for()``` are functions rather than reserved operators, meaning they must take arguments in parentheses.  Third, just like ```else```, the ```in``` operator *is* reserved and takes no arguments in parentheses.  Fourth, the conditional execution must appear between curly brackets.  Finally, indentation is meaningless, but each new operation must appear on a new line.
 
 ```{r}
 fruits<-c("apples", "oranges", "pears", "bananas")
@@ -224,7 +222,9 @@ for(i in 1:length(fruits)){
 }
 ```
 
-# 5. Vectorization
+Can you improve the for loop above by making the code more concise? 
+
+# 5. Vectorization {#vectorization}
 
 ### 5.1 Vectorized functions
 
@@ -356,25 +356,26 @@ proc.time() - ptm
 This cut our loop by more than half again! Can we do better than that? 
 
 ```{r}
-# Then we could change our subsetting to use brackets (which takes less time for R to "read" than the $ notation for vectors:
+# Then we could vectorize matches and change our subsetting to use brackets (which takes less time for R to "read" than the $ notation for vectors:
 ptm <- proc.time()
 
-lotsofproduce$matches <- "No"
+matches <- rep("No", nrow(lotsofproduce))
 cond1 <- as.logical(grepl("a", lotsofproduce$fruit)) # this creates a logical vector with the results of our first conditional test
-cond2 <- as.logical(grepl("a", lotsofproduce$veggie))
+cond2 <- as.logical(grepl("a", lotsofproduce$veggie)) # vector for second conditional test
 for (i in 1:nrow(lotsofproduce)) {
   if(cond1[i]==cond2[i]){
-    lotsofproduce[i,matches] <- "Yes"
+    matches[i] <- "Yes"
   }
 }
+lotsofproduce <- cbind(lotsofproduce, matches)
 
 proc.time() - ptm
 ```
 
-A hundredth of a second! Can't beat that, right? 
+A fraction of a second! Can't beat that, right? 
 
 ```{r}
-# In fact, we could do this equally fast by not using a loop at all. Instead, we can use an ifelse statement (which makes it completely vectorized, eliminating the need for a loop):
+# In fact, we could do this even faster by not using a loop at all. Instead, we can use an ifelse statement (which makes it completely vectorized, eliminating the need for a loop):
 ptm <- proc.time()
 
 cond1 <- as.logical(grepl("a", lotsofproduce$fruit)) 

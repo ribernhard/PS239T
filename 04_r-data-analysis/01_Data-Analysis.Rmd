@@ -1,31 +1,36 @@
 ---
 title: "Data Analysis in R: Lecture Notes"
 author: "PS239T"
-date: "Fall 2016"
+date: "Spring 2018"
 output: html_document
 ---
 
 For most applied research, conducting data analysis in R involves the following core tasks: 
 
-1. [Constructing](#1-constructing-a-dataset) a dataset
-2. [Summarizing](#2-summarizing) the structure and content of data
-3. Carrying out operations and calculations across [groups](#3-calculating-across-groups)
-4. [Reshaping](#4-reshaping) data to and from various formats
-5. Attempting to conduct [causal inference](#5-inferences) 
+1. [Constructing](#constructing-a-dataset) a dataset
+2. [Summarizing](#summarizing) the structure and content of data
+3. Carrying out operations and calculations across [groups](#calculating-across-groups)
+4. [Reshaping](#reshaping) data to and from various formats
+5. Testing relationships between variables, either [descriptive](#description) or [causal](#inferences) 
+
+This implies by extension that you will need to develop both a workflow (the process by which you conduct these tasks) and a way to keep track of the products (spreadsheets, charts, tables, etc.) of interest. For more on this way of thinking about programming, see [this discussion](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/). 
+
+As you become more advanced, I recommend switching to the above workflow. For now, let's clear our global environment and set up our working directory. 
 
 ### Setup environment
 
 ```{r eval=F}
 # remove all objects
 rm(list=ls())
+# note that this does not remove any packages you might already have called, just objects
 
 # set YOUR working directory
-setwd(dir="~/YOUR_PATH_HERE/PS239T/10_r-data-analysis/")
+setwd(dir="~/YOUR_PATH_HERE/PS239T/04_r-data-analysis/")
 ```
 
-# 1. Constructing a dataset
+# 1. Constructing a dataset {#constructing-a-dataset}
 
-The first thing we want to do is construct a dataset. This usually involves one or more of the following tasks:
+The first thing we want to do is load a dataset. This usually involves one or more of the following tasks:
 
 a) ***Importing*** different types of data from different sources
 b) ***Cleaning*** the data, including subsetting, altering values, etc.
@@ -170,7 +175,7 @@ names(country.year)
 head(country.year)
 ```
 
-# 2. Summarizing
+# 2. Summarizing {#summarizing}
 
 First let's get a quick summary of all variables.
 
@@ -218,7 +223,7 @@ Finally, let's quickly take a look at a histogram of the variable `nyt.count`:
 hist(country.year$nyt.count, breaks = 100)
 ```
 
-# 3. Calculating across groups
+# 3. Calculating across groups {#calculating-across-groups}
 
 Let's say we want to look at the number of NYT articles per region.
 
@@ -281,7 +286,7 @@ head(by.year.count)
 
 dplyr has a number of other useful functions (all of which follow the same syntax), which you'll see more of in your homework for this week. 
 
-# 4. Reshaping
+# 4. Reshaping {#reshaping} 
 
 Our country.year dataset, is currently in what's called "long" form: nyt article values are specified in the nyt.count column, and the country and year (aka, what uniquely identifies each value) are specified in each row. Let's say we wanted to make a new "wide" database, where each country has its own row, and the article counts within each year exist in multiple columns in that row. 
 
@@ -301,10 +306,9 @@ France | 952 | 893
 Base R does have commands for reshaping data (including **aggregate**, **by**, **tapply**, etc.), but each of their input commands are slightly different and are only suited for specific reshaping tasks. The **reshape2** package overcomes these argument and task inconsistencies, but is fairly slow. A recent alternative is **tidyr**, which has an easy syntax, interfaces well with dplyr, and works much faster:
 
 ```{r}
-# Install the "reshape2" package (only necessary one time)
-# install.packages("tidyr") # Not Run
+# install.packages("tidyr") # (only necessary one time)
 
-# Load the "reshape2" package (necessary every new R session)
+# Load the "tidyr" package (necessary every new R session)
 library(tidyr)
 ```
 
@@ -325,17 +329,34 @@ write.csv(region.count.wide,"region_year_counts.csv")
 ```
 
 
-# 5. Inferences
+# 5. Description and Inference
 
-Once we've imported our data, summarized it, carried out group-wise operations, and perhaps reshaped it, we may also want to attempt causal inference. 
+Once we've imported our data, summarized it, carried out group-wise operations, and perhaps reshaped it, we may also want to assess quantitatively the relationships between our variables. We tend to describe these tests as falling into one of two categories: **descriptive**, which implies that we don't have a way to understand causation (e.g., did x cause y, or y cause x?), and **inferential**, in which we believe that we do have a way to assess whether the relationship between x and y (for instance) is **causal** (e.g., by using a randomized controlled trial). 
+
+## 5a. Descriptive tests {#description}
 
 This often requires doing the following:
-1) Carrying out classical hypothesis tests
-2) Estimating regressions
+1) Assessing correlations
+2) Carrying out classical hypothesis tests
+3) Estimating regressions
 
-Note that this class is not intended to serve as quantitative training and thus does not go into any nitty-gritty details of assessing causal inference; these are meant to be bare-bones instructions on how to run basic functions. 
+Note that this class is not intended to serve as quantitative training and thus does not go into any nitty-gritty details of (for example) assessing causal identification; these are meant to be bare-bones instructions on how to run basic functions. 
 
-### 5a. Testing
+### 5a. Correlations
+
+Often, when we want to quickly understand the relationship between two variables, and for whatever reason we want to summarize that quantitatively, we run a correlation (though, as you'll learn next week, exploring your data should be done **visually** FIRST, and correlations are no substitute for visualization). 
+
+```{r}
+
+# What's the relationship between population and GDP? 
+cor(country.year$gdp.pc.un, country.year$pop.wdi, use="pairwise.complete.obs", method="pearson")
+
+```
+
+
+What happens if we change which observations are included? Does the correlation change if we use a different kind of test? Use `?cor` to see your options. 
+
+### 5b. Hypothesis Testing
 
 Let's say we're interested in whether the New York Times covers MENA differently than the West in terms of quantity. One can test for differences in distributions in either a) their means using t-tests, or b) their entire distributions using ks-tests
 
@@ -361,11 +382,13 @@ t.test(x=nyt.africa.logged, y=nyt.mena.logged)
 ks.test(x=nyt.africa.logged, y=nyt.mena.logged)
 ```
 
-### 5b. Regressions
+### 5c. Regressions {#inferential}
 
-Running regressions in R is extremely simple, very straightforward (though doing things with standard errors requires a little extra work). **lm** is the most basic OLS regression you can run, and the most basic catch-all non-linear regression function in R is *glm*, which fits a generalized linear model with your choice of family/link function (gaussian, logit, poisson, etc.).
+Running regressions in R is extremely simple, very straightforward (though doing things with standard errors requires a little extra work). **lm** is the most basic OLS regression you can run, and the most basic catch-all non-linear regression function in R is *glm*, which fits a generalized linear model with your choice of family/link function (gaussian, logit, poisson, etc.). 
 
-The basic lm and glm calls looks something like this:
+Remember, just like **you** are the only one who can prevent forest fires, **you** are the one responsible for thinking ahead of time about whether your regression is descriptive or inferential. This is determined by your research design, not your code. 
+
+Once you understand what you're estimating, the basic lm and glm calls look something like this:
 
 ```{r eval=FALSE}
 lm(data=yourdata, y~x1+x2+x3+...)
