@@ -1,7 +1,7 @@
 ---
 title: "Plotting and Visualization in R"
 author: "PS239T"
-date: "Fall 2016"
+date: "Spring 2018"
 output: html_document
 ---
 
@@ -20,12 +20,12 @@ Note that other plotting facilities do exist (notably **lattice**), but base and
 
 ### setup environment
 
-```{r}
+```{r, eval=F}
 # remove all objects
 rm(list=ls())
 
 # set working directory
-setwd(dir="~/YOURPATHHERE/PS239T/11_r-visualization/")
+setwd(dir="~/YOURPATHHERE/PS239T/05_r-visualization/")
 ```
 
 ### The dataset
@@ -77,7 +77,7 @@ plot(x = dat$gdpPercap, y = dat$lifeExp, type="l")
 plot(x = dat$gdpPercap, y = dat$lifeExp, type="b") 
 ```
 
-### 1b. Histograms and density Plots
+### 1b. Histograms and Density Plots
 
 * Certain plot types require different calls outside of the "type" argument
 * Ex) Histograms
