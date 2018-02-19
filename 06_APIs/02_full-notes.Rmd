@@ -1,7 +1,7 @@
 ---
 title: "Accessing Databases via Web APIs: Lecture Notes"
 author: "PS239T"
-date: "Fall 2016"
+date: "Spring 2018"
 output: html_document
 ---
 
@@ -75,9 +75,9 @@ The process of web browsing described above is a close analogue for the process 
 
 3. Whereas the web browser capably parsed and executed the HTML code, **one or more facilities in R, Python, or other programming languages will be necessary for parsing the server response and converting it into a format for local storage** (e.g. matrices, dataframes, databases, lists, etc.).
 
-### QUESTION: How has Prince's popularity changed over time? 
+### QUESTION: How has Adam Rippon's popularity changed over time? 
 
-**TASK**: Characterize the popularity of Prince over the past 10 years.  Specifically, is he "trending"?
+**TASK**: Characterize the popularity of Adam Rippon over the past 10 years.  Specifically, is he "trending"?
 
 
 ### STEP 1: Finding Data Resources
@@ -120,9 +120,9 @@ Fortunately, the NYT Article API is [very well documented](http://developer.nyti
 
 ### STEP 4: Constructing API GET Requests in R
 
-See `lecture-code.ipynb` to continue!
+See `lecture-code-r.Rmd` to continue!
 
-Note: `lecture-code-r.Rmd` is supplementary material to teach you how to construct GET requests in `R`.
+Note: `lecture-code.ipynb` is supplementary material to teach you how to construct GET requests in `Python`.
 
 
 ### Try it out!
