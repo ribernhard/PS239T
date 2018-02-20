@@ -10,6 +10,9 @@ What is an API?
 
 * a set of rules and procedures that facilitate interactions between computers and their applications
 
+* This is an API (thanks to Quora for the example):
+![](figures/apis_metaphor.jpeg)
+
 Web APIs
 ========================================================
 

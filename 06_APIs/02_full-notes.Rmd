@@ -11,6 +11,11 @@ output: html_document
 
 * Broadly defined: a set of rules and procedures that facilitate interactions between computers and their applications
 
+* This is an API (thanks to [Quora](https://www.quora.com/What-is-an-API-4) for the example):
+
+![](figures/apis_metaphor.jpeg)
+
+
 * A very common type of API is the Web API, which (among other things) allows users to query a remote database over the internet
 
 * Web APIs take on a variety of formats, but the vast majority adhere to a particular style known as **Representational State Transfer** or **REST**
