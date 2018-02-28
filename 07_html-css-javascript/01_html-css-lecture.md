@@ -2,7 +2,7 @@ Source Code for Websites: HTML, CSS, and Javascript
 ========================================================
 author: PS239T
 date: Spring 2018
-autosize: true
+autosize: TRUE
 
 Why HTML?
 ========================================================
