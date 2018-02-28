@@ -17,7 +17,7 @@ Learning Objectives
 ========================================================
 
 - understand enough HTML structure to build a scraper (next week)
-- discern what components of a webpage are relevant to that task (HTML, Javascript) and which probably are not (CSS)
+- discern what components of a webpage are relevant to that task (CSS, HTML, Javascript) and which probably are not
 
 What is a Website?
 ========================================================
