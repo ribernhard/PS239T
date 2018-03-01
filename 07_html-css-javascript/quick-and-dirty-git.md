@@ -208,7 +208,7 @@ Now open up a web browser and navigate to your GitHub repository. What do you se
 
 > Challenge 1
 > 
-> In the PS239T repo, you'll find a directory 16_final-projects/template
+> In the PS239T repo, you'll find a directory 11_FINAL PROJECTS/template
 > 
 > Copy all the files and directories in this folder into your new github repo
 > (ps239t-final-project). 
