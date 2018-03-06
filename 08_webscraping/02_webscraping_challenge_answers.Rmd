@@ -1,0 +1,89 @@
+---
+title: "Webscraping Challenge Answers"
+author: "PS239T"
+date: "Spring 2018"
+output: html_document
+---
+
+We begin as usual...
+```{r libraries, include=FALSE}
+library(rvest)
+library(dplyr)
+```
+
+Read in the webpage:
+``` {r webpage}
+rbpage <- read_html("http://rachelbernhard.com/job-market")
+```
+
+Our first job (after deciding what data we want to obtain from the webpage) is to figure out how to *uniquely* identify the content we're interested in. If all we want is text, our job is pretty simple. We can uniquely identify the text on the page using the page (`#page`) and `p` selectors:
+``` {r extraction}
+easytext <- rbpage %>%
+  html_nodes(css = "#page p")
+```
+
+If we wanted to do text analysis of some kind (say, we'd read in a NYT article instead of my boring webpage...), we'd be ready to start parsing and cleaning all the text from the article. [A small example of this can be seen here]( https://towardsdatascience.com/web-scraping-tutorial-in-r-5e71fd107f32) 
+
+We're not interested, so we're not going to here. Instead, we're going to go hunting for the PDFs on the page, because often we're interested in scraping data (like PDFs, .csvs, .jpgs, etc.) that aren't just text on a page. Knowing how to do this also lets us move directly from (for example) our NYT API results--which has URLs for the articles, but doesn't contain the full text of the articles themselves--to scraping text, assuming it's legal for us to do so! 
+
+Let's go scrape some stuff from a page where we know the author of the articles isn't going to sue us (though we still need to learn how to avoid hammering a website's server by downloading a lot of content too quickly)...
+
+Now, to extract the PDFs, we have to figure out what piece of code *uniquely* identifies the PDFs on my page. We can do this using the SelectorGadget, Google inspector tool, or by reading through the source code of the page. 
+
+On this page, it's simple--each PDF is identified in CSS using `#page a` according to the SelectorGadget. In XPath, that can be read in using `//*[(@id = "page")]//a`.  Using just `a` would also get us links to the other parts of my website, which we don't want. 
+``` {r results}
+results <- rbpage %>%
+  html_nodes(css = "#page a")
+
+# Same result: 
+results <- rbpage %>%
+  html_nodes(xpath = '//*[(@id = "page")]//a')
+```
+
+``` {r pdfs}
+# Create empty placeholder for the documents
+documents <- vector("list", length = length(results))
+
+# Create function to save document names and urls
+for (i in seq_along(results)) {
+    docname <- xml_contents(results[i]) %>%
+                         html_text(trim = TRUE)
+    url <- html_attr(results[i], "href")
+    documents[[i]] <- data_frame(docname = docname, url = url)
+}
+
+# Convert to dataframe
+df <- bind_rows(documents)
+```
+
+Now, notice that my writing sample is actually a link to another page, not the PDF itself. Bonus round--can you automate collecting the writing sample as well? 
+``` {r writing}
+# For now, we'll drop the last row
+df <- df[1:5,]
+
+# Drop the whitespace in docnames and replace with underscore
+df$docname <- gsub(" ", "_", df$docname)
+
+# Create full host webpage urls
+df$url <- paste0("http://rachelbernhard.com", df$url, sep="")
+
+# Create function to read URLs
+for(i in nrow(df)){
+  tryCatch({
+    download.file(df$url[i], 
+                  destfile=paste0("~/Desktop/", 
+                                  df$docname[i], 
+                                  ".pdf", 
+                                  sep=""))
+    Sys.sleep(5) # This lets us avoid hammering the webpage too often
+  }, error=function(e){
+    cat("ERROR :",conditionMessage(e), "\n")})
+}
+
+```
+Voila! You're now the kind of programmer who can get in legal trouble for their code. Welcome to the Matrix, Neo. 
+
+Some additional links of interest: 
+- on webscraping when Javascript is involved: https://www.datacamp.com/community/tutorials/scraping-javascript-generated-data-with-r
+- on pretty much everything we've covered and then some, including APIs, and other formats of data we haven't spent much time on (like XML): https://slides.cpsievert.me/web-scraping/20150612/#1 
+- on basics of HTML and, more importantly, downloading PDFs using the command line (the scraping examples are in Python): https://computationforpolicy.github.io/slides/11.pdf 
