@@ -55,7 +55,20 @@ Let's say we want to scrape Wikipedia:
 
 A Quick Example (Part 2)
 ========================================================
-``` {r scraping, echo=F}
+``` {r scraping, eval=F}
+library(rvest)
+sdata <- read_html("http://en.wikipedia.org/wiki/Table_(information)")
+# read_html reads the source code into an r format for us
+results <- html_node(sdata, css = ".wikitable")
+# ".wikitable" is a CSS selector which says: "grab nodes (aka elements) with class wikitable".
+html_table(results)
+# html_table() converts a single <table> node to a data frame.
+```
+
+
+A Quick Example (Part 3)
+========================================================
+``` {r output, echo=F}
 library(rvest)
 sdata <- read_html("http://en.wikipedia.org/wiki/Table_(information)")
 # read_html reads the source code into an r format for us
