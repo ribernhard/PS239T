@@ -1,6 +1,6 @@
 # Python Basics: 0-1 Introduction.
 
-Lectures draw heavily upon material from the D-Lab Python Intensives course, but with additional homeworks. These lectures will teach you how to:
+Lectures draw heavily upon material from the D-Lab Python Intensives course. Additional homeworks are available in the folder should you be interested. These lectures will teach you how to:
 
 1. Run Python from both the Shell and in an IPython (Jupyter) Notebook
 2. Write basic commands using Python syntax
