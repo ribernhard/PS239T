@@ -135,5 +135,5 @@ The schedule is subject to change based on the class's rate of progress.
 [Note: final presentations occur in lieu of regular section in April]
 * **Apr. 3/4:** Text Analysis in Python (guest lecture by Fiona Shen-Bayh, Political Science) 
 * **Apr. 10/11:** Text Analysis in R
-* **Apr. 17/18:** Intro to Machine Learning 
-* **Apr. 24/25:** Machine Learning Applications (guest lecture by Chris Kennedy, Biostatistics)
+* **Apr. 17/18:** Intro to Machine Learning (guest lecture by Chris Kennedy, Biostatistics)
+* **Apr. 24/25:** Wrap-up: Frontiers in Computational Methods
