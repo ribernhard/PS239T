@@ -2,9 +2,9 @@
 
 Lectures draw heavily upon material from the D-Lab Python Intensives course, but with additional homeworks. These lectures will teach you how to:
 
-1. Run Python from both the Shell and in an IPython Notebook
+1. Run Python from both the Shell and in an IPython (Jupyter) Notebook
 2. Write basic commands using Python syntax
-3. Grasp the major Python [object](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#object) [types](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#type), including [integers](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#integer), [floats](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#floating-point-number), [strings](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#string), lists, sets, and dictionaries
+3. Grasp the major utilities of Python [object](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#object) [types](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#type), including [integers](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#integer), [floats](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#floating-point-number), [strings](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#string), lists, sets, and dictionaries
 4. Operate and manipulate those objects
 5. Integrate choices into your programs using [conditionals](https://github.com/dlab-berkeley/python-intensive/blob/master/Glossary.md#conditional-statement)
 
@@ -21,9 +21,9 @@ Lectures draw heavily upon material from the D-Lab Python Intensives course, but
 
 ### What it means to "know how to program"
 
-Most programmers can program in more than one language. That's because they know *how to program* generally, as opposed to "knowing" Python, R, Ruby, or whatever.
+Most programmers can program in more than one language. That's because they know *how to program* generally, as opposed to "knowing" Python, R, Ruby, or whatever. (Remember, this is our metaphor about learning *syntax* versus learning *vocabulary*; learning specific languages is mostly about learning vocabulary).  
 
-In other words, programming is an extendible skill. Basic programming concepts -- conditionals, for loops, functions -- can be found in almost any programming language.
+In other words, programming is an extensible skill. Basic programming concepts -- conditionals, for loops, functions -- can be found in almost any programming language.
 
 That being said, programming languages differ from one another in the following ways:
 
