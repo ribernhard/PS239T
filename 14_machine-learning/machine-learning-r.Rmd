@@ -75,12 +75,6 @@ A model that performs well on the training dataset but poorly on the test datase
 *Area under the ROC curve (AUC)  
 *Cross validated error  
 
-Learn more:
-*[Jason Brownlee - How to Evaluate Machine Learning Algorithms](http://machinelearningmastery.com/how-to-evaluate-machine-learning-algorithms/) and [Assessing and Comparing Classifier Performance with ROC Curves](http://machinelearningmastery.com/assessing-comparing-classifier-performance-roc-curves-2/)  
-*[An Introduction to Statistical Learning - ROC, pp.147-149](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Sixth%20Printing.pdf)  
-*[R-bloggers - cross validation example](https://www.r-bloggers.com/cross-validation-for-predictive-analytics-using-r/)  
-*[Rob J. Hyndman - why every statistician should know about cross-validation](http://robjhyndman.com/hyndsight/crossvalidation/)  
-
 ### 5.  Workshop goals
 ##### 5.1 General goals
 *Learn a few basics and practice coding individual machine learning algorithms in R  
@@ -312,9 +306,10 @@ See the [yhat blog for Fitting & Interpreting Linear Models in R](http://blog.yh
 2) Set up a regression model that predicts one of the numeric variables from the "iris" dataset. 
 
 # 3.  Decision trees 
-- Decision trees are recursive partitioning methods that divides the predictor spaces into simpler regions and can be visualized in a tree-like structure. Decesion trees attempt to classify data by dividing it into subsets according to a `Y` output variable and based on some predictors.  
 
-- Let's see how a tree-based method classifies women's participation in the workforce.  
+Decision trees are recursive partitioning methods that divides the predictor spaces into simpler regions and can be visualized in a tree-like structure. Decesion trees attempt to classify data by dividing it into subsets according to a `Y` output variable and based on some predictors.  
+
+Let's see how a tree-based method classifies women's participation in the workforce.  
 
 Note that we do not have to use `model.matrix` for our decision tree algorithm here:
 ```{r}
@@ -563,9 +558,9 @@ set.seed(1, "L'Ecuyer-CMRG")
 cv_sl <- CV.SuperLearner(Y = Mroz$lfp, X = data,
                          SL.library = SL_library,
                          family = binomial(),
-                         # Fit only 5 folds for demo purposes only.
+                         # Fit only 3 folds for demo purposes only.
                          # For a real analysis we would do 20 folds.
-                         cvControl = list(V = 5),
+                         cvControl = list(V = 3L),
                          # Set to T to show details.
                          verbose = F)
 summary(cv_sl)
@@ -586,4 +581,4 @@ plot(cv_sl) + theme_bw()
 2. Choose your favorite 2 algorithms and re-run the SuperLearner with just those algorithms in the library. Does the performance change?
 3. What are the elements of the CV_SL object? Take a look at 1 or 2 of them. Hint: use the `names()` function to list the elements of an object, then `$` to access them (just like a dataframe).
 
-A longer tutorial on SuperLearner is available here: https://github.com/ck37/superlearner-guide---
+A longer tutorial on SuperLearner is available here: (https://github.com/ck37/superlearner-guide)
