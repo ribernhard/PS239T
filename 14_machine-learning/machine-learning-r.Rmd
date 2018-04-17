@@ -39,8 +39,9 @@ library(SuperLearner)
 Machine learning evolved from scientific pursuits in statistics, computational/information theory, artificial intelligence, and pattern recognition.  
 
 How to define machine learning?  
-* Algorithms, computers, and other machines that can "learn" without direct input from a programmer.  
-* A suite of tools for investigating/modeling/understanding complex datasets.  
+
+ * Algorithms, computers, and other machines that can "learn" without direct input from a programmer.  
+ * A suite of tools for investigating/modeling/understanding complex datasets.  
 
 ### 2.  Supervised machine learning
 
@@ -69,21 +70,22 @@ A model that performs poorly on the training dataset is **underfit** because it 
 A model that performs well on the training dataset but poorly on the test dataset is saide to be **overfit** because the model performed poorly when given new data - the patterns found in the test data simply might not exist in the test data.  
 
 ##### 4.3 Common performance metrics
-*Accuracy  
-*Mean squared error  
-*True positives and true negatives (https://uberpython.wordpress.com/2012/01/01/precision-recall-sensitivity-and-specificity)
-*Area under the ROC curve (AUC)  
-*Cross validated error  
+
+  * Accuracy  
+  * Mean squared error  
+  * True positives and true negatives (https://uberpython.wordpress.com/2012/01/01/precision-recall-sensitivity-and-specificity)
+  * Area under the ROC curve (AUC)  
 
 ### 5.  Workshop goals
+
 ##### 5.1 General goals
-*Learn a few basics and practice coding individual machine learning algorithms in R  
-*Examine model performance  
-*Construct ensembles to simultaneously compare multiple algorithms  
-*Vizualize outputs  
+
+  * Learn a few basics and practice coding individual machine learning algorithms in R  
+  * Examine model performance  
+  * Construct ensembles to simultaneously compare multiple algorithms  
+  * Visualize outputs  
 
 ##### 5.2 Specific goals
-*Check out the [`car` package](https://cran.r-project.org/web/packages/car/index.html) and original [research paper](http://eml.berkeley.edu/~cle/e250a_f13/mroz-paper.pdf) for the Mroz dataset.  
 
 We ask the following questions:
 1) **Binary classification examples:** did a woman participate in the United States labor force in the year 1975? (yes = 1, no = 0)  
